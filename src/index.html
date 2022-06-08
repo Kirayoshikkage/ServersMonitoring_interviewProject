@@ -11,6 +11,11 @@
   </head>
 
   <body>
-    <!--     @include('./partials/header.html') -->
+    @include("./partials/header.html")
+    <main class="main">
+      <div class="container">
+        @include("./partials/servers.html") @include("./partials/table.html")
+      </div>
+    </main>
   </body>
 </html>

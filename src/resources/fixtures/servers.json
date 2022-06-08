@@ -1,0 +1,205 @@
+[
+  {
+    "name": "Russia_1",
+    "status": "no problems",
+    "connections": [
+      {
+        "name": "Leanne",
+        "surname": "Graham",
+        "email": "Sincere@april.biz"
+      },
+      {
+        "name": "Clementin",
+        "surname": "Bauch",
+        "email": "Nathan@yesenia.net"
+      },
+      {
+        "name": "Mrs. Dennis",
+        "surname": "Schulist",
+        "email": "Karley_Dach@jasper.info"
+      }
+    ]
+  },
+  {
+    "name": "Russia_2",
+    "status": "minor problems",
+    "connections": [
+      {
+        "name": "Patricia",
+        "surname": "Lebsack",
+        "email": "Julianne.OConner@kory.org"
+      },
+      {
+        "name": "Clementin",
+        "surname": "Bauch",
+        "email": "Nathan@yesenia.net"
+      }
+    ]
+  },
+  {
+    "name": "Russia_3",
+    "status": "many problems",
+    "connections": [
+      {
+        "name": "Patricia",
+        "surname": "Lebsack",
+        "email": "Julianne.OConner@kory.org"
+      },
+      {
+        "name": "Clementin",
+        "surname": "Bauch",
+        "email": "Nathan@yesenia.net"
+      },
+      {
+        "name": "Nicholas",
+        "surname": "Runolfsdottir",
+        "email": "Sherwood@rosamond.me"
+      },
+      {
+        "name": "Clementina",
+        "surname": "DuBuque",
+        "email": "Rey.Padberg@karina.biz"
+      }
+    ]
+  },
+  {
+    "name": "Russia_4",
+    "status": "no problems",
+    "connections": [
+      {
+        "name": "Patricia",
+        "surname": "Lebsack",
+        "email": "Julianne.OConner@kory.org"
+      },
+      {
+        "name": "Mrs. Dennis",
+        "surname": "Schulist",
+        "email": "Karley_Dach@jasper.info"
+      },
+      {
+        "name": "Ervin",
+        "surname": "Howell",
+        "email": "Shanna@melissa.tv"
+      }
+    ]
+  },
+  {
+    "name": "Russia_5",
+    "status": "died",
+    "connections": [
+      {
+        "name": "Patricia",
+        "surname": "Lebsack",
+        "email": "Julianne.OConner@kory.org"
+      },
+      {
+        "name": "Leanne",
+        "surname": "Graham",
+        "email": "Sincere@april.biz"
+      },
+      {
+        "name": "Ervin",
+        "surname": "Howell",
+        "email": "Shanna@melissa.tv"
+      },
+      {
+        "name": "Nicholas",
+        "surname": "Runolfsdottir",
+        "email": "Sherwood@rosamond.me"
+      }
+    ]
+  },
+  {
+    "name": "USA_1",
+    "status": "no problems",
+    "connections": [
+      {
+        "name": "Patricia",
+        "surname": "Lebsack",
+        "email": "Julianne.OConner@kory.org"
+      }
+    ]
+  },
+  {
+    "name": "USA_2",
+    "status": "minor problems",
+    "connections": [
+      {
+        "name": "Patricia",
+        "surname": "Lebsack",
+        "email": "Julianne.OConner@kory.org"
+      },
+      {
+        "name": "Chelsey",
+        "surname": "Dietrich",
+        "email": "Lucio_Hettinger@annie.ca"
+      },
+      {
+        "name": "Mrs. Dennis",
+        "surname": "Schulist",
+        "email": "Karley_Dach@jasper.info"
+      },
+      {
+        "name": "Kurtis",
+        "surname": "Weissnat",
+        "email": "Telly.Hoeger@billy.biz"
+      },
+      {
+        "name": "Nicholas",
+        "surname": "Runolfsdottir",
+        "email": "Sherwood@rosamond.me"
+      },
+      {
+        "name": "Glenna",
+        "surname": "Reichert",
+        "email": "Chaim_McDermott@dana.io"
+      },
+      {
+        "name": "Clementina",
+        "surname": "DuBuque",
+        "email": "Rey.Padberg@karina.biz"
+      }
+    ]
+  },
+  {
+    "name": "USA_3",
+    "status": "many problems",
+    "connections": [
+      {
+        "name": "Clementina",
+        "surname": "DuBuque",
+        "email": "Rey.Padberg@karina.biz"
+      }
+    ]
+  },
+  {
+    "name": "USA_4",
+    "status": "no problems",
+    "connections": [
+      {
+        "name": "Clementina",
+        "surname": "DuBuque",
+        "email": "Rey.Padberg@karina.biz"
+      },
+      {
+        "name": "Leanne",
+        "surname": "Graham",
+        "email": "Sincere@april.biz"
+      },
+      {
+        "name": "Ervin",
+        "surname": "Howell",
+        "email": "Shanna@melissa.tv"
+      },
+      {
+        "name": "Clementin",
+        "surname": "Bauch",
+        "email": "Nathan@yesenia.net"
+      }
+    ]
+  },
+  {
+    "name": "USA_5",
+    "status": "died"
+  }
+]

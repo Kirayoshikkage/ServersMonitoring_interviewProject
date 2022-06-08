@@ -1,0 +1,20 @@
+.servers {
+  background-color: var(--color-brown);
+  height: rem(428);
+  border-radius: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+
+  &__item {
+    &_map {
+      background-color: var(--color-black);
+      border-radius: 1rem;
+    }
+
+    &_list {
+      overflow: hidden;
+    }
+  }
+}

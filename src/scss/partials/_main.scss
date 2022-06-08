@@ -1,0 +1,11 @@
+.main {
+  min-height: calc(100vh - rem(104));
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  .container {
+    flex-grow: 1;
+    height: 100%;
+  }
+}
