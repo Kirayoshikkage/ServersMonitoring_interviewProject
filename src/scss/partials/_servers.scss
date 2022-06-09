@@ -6,6 +6,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   padding: 1rem;
+  margin-bottom: 1rem;
 
   &__item {
     &_map {
@@ -15,6 +16,27 @@
 
     &_list {
       overflow: hidden;
+    }
+  }
+
+  &__title,
+  &__online {
+    font-size: rem(18);
+    font-weight: 500;
+    line-height: lh(24, 18);
+    color: var(--color-white);
+    margin: 0;
+    display: inline-block;
+  }
+
+  &__online {
+    color: var(--color-middleGray);
+    margin-bottom: 1rem;
+  }
+
+  .table-elements {
+    &__body {
+      height: rem(268);
     }
   }
 }

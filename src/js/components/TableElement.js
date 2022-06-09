@@ -3,63 +3,68 @@ class ATableELement {
     throw new Error("Method not implemented");
   }
 
-  updateElement(item) {
+  updateElement(item, data) {
     throw new Error("Method not implemented");
   }
 }
 
 class TableElementServer extends ATableELement {
-  createElement(data = null) {
-    if (
-      Object.prototype.toString.call(data) !== "[object Object]" ||
-      !Object.keys(data).length
-    ) {
-      return `<tr class="table-elements__line">
-        <td class="table-elements__error">
-          Что-то пошло не так...
-        </td>
-      </tr>`;
-    }
-
-    let { name = null, status = null, connections = null } = data;
-
-    name = typeof name === "string" && name !== "" ? name : "No name";
-
-    status = typeof status === "string" && status !== "" ? status : "died";
-
-    let amountConnections =
-      connections && Array.isArray(connections) ? connections.length : 0;
+  createElement(data) {
+    let { name, status, connections } = data;
 
     return `
       <tr data-id="${name}" data-status="${status}" class="table-elements__line">
-        <td class="table-elements__column table-elements__column_name">
+        <td class="table-elements__column table-elements__column_name status">
           ${name}
         </td>
-        <td class="table-elements__column table-elements__column_amount-users">${amountConnections}</td>
+        <td class="table-elements__column table-elements__column_amount-users">${
+          Object.keys(connections).length
+        }</td>
       </tr>
     `;
   }
 
-  updateElement(item = null, data) {
-    if (!(item instanceof HTMLElement) || !item) {
+  updateElement(item = null, data = null) {
+    if (!(item instanceof HTMLElement) || !item || !data) {
       return;
     }
 
     let { status = null, connections = null } = data;
 
-    if (!status || typeof status !== "string" || status === "") {
-      return;
-    }
-
-    if (!connections || !Array.isArray(connections)) {
-      return;
-    }
-
     item.dataset.status = status;
 
     item.querySelector(".table-elements__column_amount-users").textContent =
-      connections.length;
+      Object.keys(connections).length;
   }
 }
 
-export { TableElementServer };
+class TableElementUser extends ATableELement {
+  createElement(data) {
+    let { name, surname, email, id } = data;
+
+    return `
+      <tr data-id="${id}" class="table-elements__line">
+        <td class="table-elements__column table-elements__column_name">
+          ${name}
+        </td>
+        <td class="table-elements__column table-elements__column_surname">
+          ${surname}
+        </td>
+        <td class="table-elements__column table-elements__column_email">
+          ${email}
+        </td>
+      </tr>
+    `;
+  }
+
+  updateElement(item, data) {
+    let { name, surname, email, id } = data;
+
+    item.dataset.id = id;
+    item.querySelector(".table-elements__column_name").textContent = name;
+    item.querySelector(".table-elements__column_surname").textContent = surname;
+    item.querySelector(".table-elements__column_email").textContent = email;
+  }
+}
+
+export { TableElementServer, TableElementUser };

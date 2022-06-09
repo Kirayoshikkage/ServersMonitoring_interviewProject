@@ -1,0 +1,41 @@
+.info {
+  background-color: var(--color-brown);
+  border-radius: 1rem;
+  padding: rem(24);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: rem(24);
+
+  .status {
+    padding-left: rem(24);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0;
+      border-radius: 100%;
+      border: rem(1) solid white;
+      width: rem(12);
+      height: rem(12);
+    }
+  }
+
+  &__title,
+  &__amount {
+    font-size: rem(22);
+    font-weight: 600;
+    line-height: lh(33, 22);
+    color: var(--color-white);
+    display: inline;
+    margin: 0;
+  }
+
+  &__amount {
+    color: var(--color-middleGray);
+  }
+
+  @include status;
+}

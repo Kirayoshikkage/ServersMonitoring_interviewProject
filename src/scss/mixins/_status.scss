@@ -1,0 +1,25 @@
+@mixin status {
+  [data-status="no problems"] {
+    .status::before {
+      background-color: #87ff85;
+    }
+  }
+
+  [data-status="minor problems"] {
+    .status::before {
+      background-color: #fffb95;
+    }
+  }
+
+  [data-status="many problems"] {
+    .status::before {
+      background-color: #f55151;
+    }
+  }
+
+  [data-status="died"] {
+    .status::before {
+      background-color: #cbcbcb;
+    }
+  }
+}

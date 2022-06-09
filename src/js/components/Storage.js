@@ -1,6 +1,7 @@
 class Storage {
-  constructor(funcFormat) {
-    this._funcFormat = funcFormat;
+  constructor({ format, validate }) {
+    this._format = format;
+    this._validate = validate;
   }
 
   _observers = {};
@@ -24,14 +25,14 @@ class Storage {
     }
   );
 
-  setData(key = null, value = null) {
+  setData(key = null, data = null) {
     if (typeof key !== "string") throw new Error("Incorrect type key");
 
     if (!key) throw new Error("Key not transferred");
 
-    if (!value) throw new Error("Value not transferred");
+    if (!data) throw new Error("Data not transferred");
 
-    this._data[key] = value;
+    this._data[key] = this._formatData(key, this._validateData(key, data));
   }
 
   getData(key = null) {
@@ -42,14 +43,18 @@ class Storage {
     return this._data[key];
   }
 
-  formatData(arr) {
-    return this._funcFormat(arr);
+  _formatData(key, data) {
+    return this._format[key](data);
+  }
+
+  _validateData(key, data) {
+    return this._validate[key](data);
   }
 
   observer(key = null, fn = null) {
     if (!this._data[key]) throw new Error("There is no data with this key");
 
-    if (typeof fn !== "function" || Array.isArray(fn))
+    if (!Array.isArray(fn) && typeof fn !== "function")
       throw new Error("Incorrect type fn");
 
     if (typeof key !== "string") throw new Error("Incorrect type key");
@@ -72,9 +77,17 @@ class Storage {
   }
 }
 
-function formatDataKeyValue(arr) {
+function formatServers(arr) {
   return arr.reduce((acc, item) => {
     let key = item.name ? item.name : Date.now();
+
+    item.connections = item.connections.reduce((acc, item) => {
+      let id = item.id ? item.id : Date.now();
+
+      acc[id] = item;
+
+      return acc;
+    }, {});
 
     acc[key] = item;
 
@@ -82,4 +95,26 @@ function formatDataKeyValue(arr) {
   }, {});
 }
 
-export { Storage, formatDataKeyValue };
+function validateServers(data) {
+  if (!Object.keys(data).length) throw new Error("Data is empty");
+
+  return data.reduce((acc, item) => {
+    if (
+      !Object.keys(item).length ||
+      Object.prototype.toString.call(item) !== "[object Object]"
+    )
+      return acc;
+
+    let { name, status, connections } = item;
+
+    acc.push({
+      name: typeof name === "string" && name !== "" ? name : "No name",
+      status: typeof status === "string" && status !== "" ? status : "died",
+      connections: Array.isArray(connections) ? connections : [],
+    });
+
+    return acc;
+  }, []);
+}
+
+export { Storage, formatServers, validateServers };

@@ -1,21 +1,6 @@
 .table-elements {
   height: 100%;
 
-  &__title,
-  &__online {
-    font-size: rem(18);
-    font-weight: 500;
-    line-height: lh(24, 18);
-    color: var(--color-white);
-    margin: 0;
-    display: inline-block;
-  }
-
-  &__online {
-    color: var(--color-middleGray);
-    margin-bottom: 1rem;
-  }
-
   &__table {
     width: 100%;
     border-collapse: collapse;
@@ -28,7 +13,6 @@
   &__body {
     display: block;
     overflow: auto;
-    height: rem(268);
   }
 
   &__head,
@@ -52,6 +36,13 @@
 
   &__line {
     border-bottom: rem(1) solid var(--color-middleGray);
+    cursor: pointer;
+
+    &:hover {
+      .table-elements__column {
+        background-color: var(--color-black);
+      }
+    }
   }
 
   &__column {
@@ -60,45 +51,26 @@
     font-size: 1rem;
     line-height: lh(24, 16);
 
-    &_name {
-      padding-left: rem(48);
-      position: relative;
+    transition-duration: $transitionDuration;
+    transition-property: background;
+  }
 
-      &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: rem(24);
-        width: rem(12);
-        height: rem(12);
-        border: rem(1) solid var(--color-white);
-        border-radius: 100%;
-        transform: translateY(-50%);
-      }
+  .status {
+    padding-left: rem(48);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: rem(24);
+      width: rem(12);
+      height: rem(12);
+      border: rem(1) solid var(--color-white);
+      border-radius: 100%;
+      transform: translateY(-50%);
     }
   }
 
-  [data-status="no problems"] {
-    .table-elements__column_name::before {
-      background-color: #87ff85;
-    }
-  }
-
-  [data-status="minor problems"] {
-    .table-elements__column_name::before {
-      background-color: #fffb95;
-    }
-  }
-
-  [data-status="many problems"] {
-    .table-elements__column_name::before {
-      background-color: #f55151;
-    }
-  }
-
-  [data-status="died"] {
-    .table-elements__column_name::before {
-      background-color: #cbcbcb;
-    }
-  }
+  @include status;
 }

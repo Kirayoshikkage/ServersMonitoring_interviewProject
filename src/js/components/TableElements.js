@@ -12,24 +12,28 @@ class TableElements {
 
     if (!this._selector) throw new Error("Selector incorrect");
 
-    this._validateData(data);
-
     let list = ``;
 
     for (let item in data) {
       list += this._createElement(data[item]);
     }
 
+    this._selector.innerHTML = "";
     this._selector.insertAdjacentHTML("beforeend", list);
   }
 
   updateElements(data) {
-    this._validateData(data);
-
     this._selector.querySelectorAll("[data-id]").forEach((item) => {
-      let id = item.dataset.id;
+      let id = item.dataset.id,
+        dataItem = data[id];
 
-      this._api.updateElement(item, data[id]);
+      if (!dataItem) {
+        item.remove();
+
+        return;
+      }
+
+      this._api.updateElement(item, dataItem);
     });
   }
 
@@ -37,15 +41,23 @@ class TableElements {
     return this._api.createElement(data);
   }
 
-  _validateData(data) {
-    if (
-      Object.prototype.toString.call(data) !== "[object Object]" &&
-      !Array.isArray(data)
-    ) {
-      throw new Error("Data incorrect");
+  event(event, cb) {
+    if (typeof event !== "string") throw new Error("Type event is invalid");
+
+    if (typeof cb !== "function" && !Array.isArray(cb))
+      throw new Error("Type cb is invalid");
+
+    this._setEvent(event, cb);
+  }
+
+  _setEvent(event, cb) {
+    if (Array.isArray(cb)) {
+      cb.forEach((func) => this._selector.addEventListener(event, func));
+
+      return;
     }
 
-    if (!Object.keys(data).length) throw new Error("Data is empty");
+    this._selector.addEventListener(event, cb);
   }
 }
 
