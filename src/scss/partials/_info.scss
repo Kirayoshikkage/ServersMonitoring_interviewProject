@@ -37,5 +37,9 @@
     color: var(--color-middleGray);
   }
 
+  &__search {
+    max-width: rem(520);
+  }
+
   @include status;
 }

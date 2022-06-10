@@ -22,4 +22,11 @@
       background-color: #cbcbcb;
     }
   }
+
+  [data-status=""] {
+    .status::before {
+      background-color: transparent;
+      border: none;
+    }
+  }
 }

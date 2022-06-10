@@ -22,7 +22,9 @@ class TableElements {
     this._selector.insertAdjacentHTML("beforeend", list);
   }
 
-  updateElements(data) {
+  updateElements(data = null) {
+    if (!data) return;
+
     this._selector.querySelectorAll("[data-id]").forEach((item) => {
       let id = item.dataset.id,
         dataItem = data[id];
