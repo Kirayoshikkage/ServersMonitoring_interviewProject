@@ -11,12 +11,6 @@ class Api {
   post(data) {
     this.api.post(this.url, data);
   }
-
-  async update(cb) {
-    let request = await this.get();
-
-    cb(request);
-  }
 }
 
 class FetchRequest {

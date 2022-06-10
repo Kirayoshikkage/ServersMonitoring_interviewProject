@@ -20,12 +20,12 @@ class Info {
     return this._data;
   }
 
-  updateData(data) {
-    this._data = data;
-  }
-
   getKey() {
     return this._key;
+  }
+
+  updateData(data) {
+    this._data = data;
   }
 
   eventSet(fn) {
@@ -39,7 +39,7 @@ class Info {
   }
 }
 
-function serverInfoChangeDesc({ status, name, connections }) {
+function serverInfoChangeDesc({ status, name, subscribers }) {
   let infoContainer = document.querySelector(".info"),
     title = infoContainer.querySelector(".info__title"),
     amount = infoContainer.querySelector(".info__amount"),
@@ -47,7 +47,7 @@ function serverInfoChangeDesc({ status, name, connections }) {
 
   statusContainer.dataset.status = status;
   title.textContent = name;
-  amount.textContent = `(${Object.keys(connections).length} connections)`;
+  amount.textContent = `(${Object.keys(subscribers).length} connections)`;
 }
 
 export { Info, serverInfoChangeDesc };

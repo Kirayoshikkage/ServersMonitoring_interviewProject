@@ -1,231 +1,39 @@
 [
   {
     "name": "Russia_1",
-    "status": "no problems",
-    "connections": [
-      {
-        "id": "1",
-        "name": "Leanne",
-        "surname": "Graham",
-        "email": "Sincere@april.biz"
-      },
-      {
-        "id": "2",
-        "name": "Clementin",
-        "surname": "Bauch",
-        "email": "Nathan@yesenia.net"
-      },
-      {
-        "id": "3",
-        "name": "Mrs. Dennis",
-        "surname": "Schulist",
-        "email": "Karley_Dach@jasper.info"
-      }
-    ]
+    "status": "no problems"
   },
   {
     "name": "Russia_2",
-    "status": "minor problems",
-    "connections": [
-      {
-        "id": "4",
-        "name": "Patricia",
-        "surname": "Lebsack",
-        "email": "Julianne.OConner@kory.org"
-      },
-      {
-        "id": "2",
-        "name": "Clementin",
-        "surname": "Bauch",
-        "email": "Nathan@yesenia.net"
-      }
-    ]
+    "status": "minor problems"
   },
   {
     "name": "Russia_3",
-    "status": "many problems",
-    "connections": [
-      {
-        "id": "4",
-        "name": "Patricia",
-        "surname": "Lebsack",
-        "email": "Julianne.OConner@kory.org"
-      },
-      {
-        "id": "2",
-        "name": "Clementin",
-        "surname": "Bauch",
-        "email": "Nathan@yesenia.net"
-      },
-      {
-        "id": "5",
-        "name": "Nicholas",
-        "surname": "Runolfsdottir",
-        "email": "Sherwood@rosamond.me"
-      },
-      {
-        "id": "6",
-        "name": "Clementina",
-        "surname": "DuBuque",
-        "email": "Rey.Padberg@karina.biz"
-      }
-    ]
+    "status": "many problems"
   },
   {
     "name": "Russia_4",
-    "status": "no problems",
-    "connections": [
-      {
-        "id": "4",
-        "name": "Patricia",
-        "surname": "Lebsack",
-        "email": "Julianne.OConner@kory.org"
-      },
-      {
-        "id": "3",
-        "name": "Mrs. Dennis",
-        "surname": "Schulist",
-        "email": "Karley_Dach@jasper.info"
-      },
-      {
-        "id": "7",
-        "name": "Ervin",
-        "surname": "Howell",
-        "email": "Shanna@melissa.tv"
-      }
-    ]
+    "status": "no problems"
   },
   {
     "name": "Russia_5",
-    "status": "died",
-    "connections": [
-      {
-        "id": "4",
-        "name": "Patricia",
-        "surname": "Lebsack",
-        "email": "Julianne.OConner@kory.org"
-      },
-      {
-        "id": "1",
-        "name": "Leanne",
-        "surname": "Graham",
-        "email": "Sincere@april.biz"
-      },
-      {
-        "id": "7",
-        "name": "Ervin",
-        "surname": "Howell",
-        "email": "Shanna@melissa.tv"
-      },
-      {
-        "id": "5",
-        "name": "Nicholas",
-        "surname": "Runolfsdottir",
-        "email": "Sherwood@rosamond.me"
-      }
-    ]
+    "status": "died"
   },
   {
     "name": "USA_1",
-    "status": "no problems",
-    "connections": [
-      {
-        "id": "4",
-        "name": "Patricia",
-        "surname": "Lebsack",
-        "email": "Julianne.OConner@kory.org"
-      }
-    ]
+    "status": "no problems"
   },
   {
     "name": "USA_2",
-    "status": "minor problems",
-    "connections": [
-      {
-        "id": "4",
-        "name": "Patricia",
-        "surname": "Lebsack",
-        "email": "Julianne.OConner@kory.org"
-      },
-      {
-        "id": "8",
-        "name": "Chelsey",
-        "surname": "Dietrich",
-        "email": "Lucio_Hettinger@annie.ca"
-      },
-      {
-        "id": "3",
-        "name": "Mrs. Dennis",
-        "surname": "Schulist",
-        "email": "Karley_Dach@jasper.info"
-      },
-      {
-        "id": "9",
-        "name": "Kurtis",
-        "surname": "Weissnat",
-        "email": "Telly.Hoeger@billy.biz"
-      },
-      {
-        "id": "5",
-        "name": "Nicholas",
-        "surname": "Runolfsdottir",
-        "email": "Sherwood@rosamond.me"
-      },
-      {
-        "id": "10",
-        "name": "Glenna",
-        "surname": "Reichert",
-        "email": "Chaim_McDermott@dana.io"
-      },
-      {
-        "id": "6",
-        "name": "Clementina",
-        "surname": "DuBuque",
-        "email": "Rey.Padberg@karina.biz"
-      }
-    ]
+    "status": "minor problems"
   },
   {
     "name": "USA_3",
-    "status": "many problems",
-    "connections": [
-      {
-        "id": "6",
-        "name": "Clementina",
-        "surname": "DuBuque",
-        "email": "Rey.Padberg@karina.biz"
-      }
-    ]
+    "status": "many problems"
   },
   {
     "name": "USA_4",
-    "status": "no problems",
-    "connections": [
-      {
-        "id": "6",
-        "name": "Clementina",
-        "surname": "DuBuque",
-        "email": "Rey.Padberg@karina.biz"
-      },
-      {
-        "id": "1",
-        "name": "Leanne",
-        "surname": "Graham",
-        "email": "Sincere@april.biz"
-      },
-      {
-        "id": "7",
-        "name": "Ervin",
-        "surname": "Howell",
-        "email": "Shanna@melissa.tv"
-      },
-      {
-        "id": "2",
-        "name": "Clementin",
-        "surname": "Bauch",
-        "email": "Nathan@yesenia.net"
-      }
-    ]
+    "status": "no problems"
   },
   {
     "name": "USA_5",

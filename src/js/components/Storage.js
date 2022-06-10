@@ -1,10 +1,7 @@
 class Storage {
-  constructor({ format, validate }) {
-    this._format = format;
-    this._validate = validate;
-  }
-
   _observers = {};
+  _formattingList = {};
+  _validationList = {};
   _data = new Proxy(
     {
       bind: this,
@@ -25,30 +22,39 @@ class Storage {
     }
   );
 
-  setData(key = null, data = null) {
-    if (typeof key !== "string") throw new Error("Incorrect type key");
+  setData(key, data) {
+    let validationData = this._validation(key, data),
+      formattingData = this._formatting(key, validationData);
 
-    if (!key) throw new Error("Key not transferred");
-
-    if (!data) throw new Error("Data not transferred");
-
-    this._data[key] = this._formatData(key, this._validateData(key, data));
+    this._data[key] = formattingData;
   }
 
-  getData(key = null) {
-    if (typeof key !== "string") throw new Error("Incorrect type key");
-
-    if (!key) throw new Error("Key not transferred");
-
+  getData(key) {
     return this._data[key];
   }
 
-  _formatData(key, data) {
-    return this._format[key](data);
+  setFormatting(key, fn) {
+    this._formattingList[key] = fn;
   }
 
-  _validateData(key, data) {
-    return this._validate[key](data);
+  setValidation(key, fn) {
+    this._validationList[key] = fn;
+  }
+
+  _validation(key, data) {
+    if (this._validationList[key]) {
+      return this._validationList[key](data);
+    }
+
+    return data;
+  }
+
+  _formatting(key, data) {
+    if (this._formattingList[key]) {
+      return this._formattingList[key](data);
+    }
+
+    return data;
   }
 
   observer(key = null, fn = null) {
@@ -75,46 +81,10 @@ class Storage {
 
     this._observers[key].push(fn);
   }
+
+  updateData(cb) {
+    cb();
+  }
 }
 
-function formatServers(arr) {
-  return arr.reduce((acc, item) => {
-    let key = item.name ? item.name : Date.now();
-
-    item.connections = item.connections.reduce((acc, item) => {
-      let id = item.id ? item.id : Date.now();
-
-      acc[id] = item;
-
-      return acc;
-    }, {});
-
-    acc[key] = item;
-
-    return acc;
-  }, {});
-}
-
-function validateServers(data) {
-  if (!Object.keys(data).length) throw new Error("Data is empty");
-
-  return data.reduce((acc, item) => {
-    if (
-      !Object.keys(item).length ||
-      Object.prototype.toString.call(item) !== "[object Object]"
-    )
-      return acc;
-
-    let { name, status, connections } = item;
-
-    acc.push({
-      name: typeof name === "string" && name !== "" ? name : "No name",
-      status: typeof status === "string" && status !== "" ? status : "died",
-      connections: Array.isArray(connections) ? connections : [],
-    });
-
-    return acc;
-  }, []);
-}
-
-export { Storage, formatServers, validateServers };
+export { Storage };

@@ -1,5 +1,6 @@
 let settings = {
-  url: "../fixtures/servers.json",
+  urlServers: "../fixtures/servers.json",
+  urlUsers: "../fixtures/users.json",
 };
 
 export { settings };
