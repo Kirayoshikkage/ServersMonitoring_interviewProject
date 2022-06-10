@@ -79,7 +79,9 @@ function showElementTable(element) {
 }
 
 function tableElementsComparison(compare, value) {
-  if (compare.trim().substr(0, value.length) === value) {
+  if (
+    compare.trim().toLowerCase().substr(0, value.length) === value.toLowerCase()
+  ) {
     return true;
   } else {
     return false;

@@ -22,22 +22,50 @@ class Storage {
     }
   );
 
-  setData(key, data) {
+  setData(key = null, data = null) {
+    if (!key) throw new Error("Key not transferred");
+
+    if (!data) throw new Error("Data not transferred");
+
+    if (typeof key !== "string") throw new Error("Invalid type passed key");
+
+    if (key === "") throw new Error("Key is empty");
+
     let validationData = this._validation(key, data),
       formattingData = this._formatting(key, validationData);
 
     this._data[key] = formattingData;
   }
 
-  getData(key) {
+  getData(key = "") {
     return this._data[key];
   }
 
-  setFormatting(key, fn) {
+  setFormatting(key = null, fn = null) {
+    if (!key) throw new Error("Key not transferred");
+
+    if (!fn) throw new Error("Fn not transferred");
+
+    if (typeof key !== "string") throw new Error("Invalid type passed key");
+
+    if (typeof fn !== "function") throw new Error("Invalid type passed fn");
+
+    if (key === "") throw new Error("Key is empty");
+
     this._formattingList[key] = fn;
   }
 
   setValidation(key, fn) {
+    if (!key) throw new Error("Key not transferred");
+
+    if (!fn) throw new Error("Fn not transferred");
+
+    if (typeof key !== "string") throw new Error("Invalid type passed key");
+
+    if (typeof fn !== "function") throw new Error("Invalid type passed fn");
+
+    if (key === "") throw new Error("Key is empty");
+
     this._validationList[key] = fn;
   }
 
@@ -58,16 +86,18 @@ class Storage {
   }
 
   observer(key = null, fn = null) {
-    if (!this._data[key]) throw new Error("There is no data with this key");
-
-    if (!Array.isArray(fn) && typeof fn !== "function")
-      throw new Error("Incorrect type fn");
-
-    if (typeof key !== "string") throw new Error("Incorrect type key");
-
     if (!key) throw new Error("Key not transferred");
 
-    if (!fn) throw new Error("Fn not transferred");
+    if (!fn) throw new Error("Key not transferred");
+
+    if (typeof key !== "string") throw new Error("Invalid type passed key");
+
+    if (!Array.isArray(fn) && typeof fn !== "function")
+      throw new Error("Invalid type passed fn");
+
+    if (key === "") throw new Error("Key is empty");
+
+    if (!this._data[key]) throw new Error("There is no data with this key");
 
     if (!this._observers[key]) {
       this._observers[key] = [];

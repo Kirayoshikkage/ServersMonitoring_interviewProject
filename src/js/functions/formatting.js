@@ -1,4 +1,8 @@
 function formattingServers(data) {
+  if (!Array.isArray(data)) throw new Error("Invalid type passed data");
+
+  if (!data.length) throw new Error("Data is empty");
+
   return data.reduce((acc, item) => {
     let key = item.name ? item.name : Date.now();
 
@@ -11,6 +15,10 @@ function formattingServers(data) {
 }
 
 function formattingUsers(data) {
+  if (!Array.isArray(data)) throw new Error("Invalid type passed data");
+
+  if (!data.length) throw new Error("Data is empty");
+
   return data.reduce((acc, item) => {
     acc[item.id] = item;
 
@@ -33,3 +41,13 @@ function formattingMain(servers, users) {
 }
 
 export { formattingUsers, formattingServers, formattingMain };
+
+/**
+ *
+ * Переданы валидные данные
+ *
+ * Переданы пустые данные
+ *
+ * Передан не массив
+ *
+ */
