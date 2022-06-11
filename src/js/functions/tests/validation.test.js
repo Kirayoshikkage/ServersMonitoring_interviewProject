@@ -1,4 +1,4 @@
-import { validateServers, validateUsers } from "../validate";
+import { validateServers, validateUsers } from "../validation";
 
 let user = [
     {

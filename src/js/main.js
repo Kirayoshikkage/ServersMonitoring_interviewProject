@@ -1,7 +1,7 @@
 import { settings } from "./components/Settings";
 import { Api, FetchRequest } from "./components/Api";
 import { Storage } from "./components/Storage";
-import { validateServers, validateUsers } from "./functions/validate";
+import { validateServers, validateUsers } from "./functions/validation";
 import {
   formattingUsers,
   formattingServers,

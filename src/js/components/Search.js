@@ -1,17 +1,35 @@
 class Search {
-  constructor({ input, container, selectorElements, compare }) {
-    this._input = document.querySelector(input);
-    this._container = document.querySelector(container);
-    this._selectorElements = selectorElements;
-    this._compare = compare;
+  constructor(
+    {
+      input = null,
+      container = null,
+      selectorElements = null,
+      compare = null,
+    } = null
+  ) {
+    this._input =
+      typeof input === "string" ? document.querySelector(input) : null;
+    this._container =
+      typeof container === "string" ? document.querySelector(container) : null;
+    this._selectorElements =
+      typeof selectorElements === "string" ? selectorElements : null;
+    this._compare = typeof compare === "string" ? compare : null;
   }
 
-  _hide;
-  _show;
+  _hideFn;
+  _showFn;
   _comparison;
   _elements;
 
   init() {
+    if (!this._input) throw new Error("Input invalid");
+
+    if (!this._container) throw new Error("Container invalid");
+
+    if (!this._selectorElements) throw new Error("SelectorElements invalid");
+
+    if (!this._compare) throw new Error("Compare invalid");
+
     this._elements = this._container.querySelectorAll(this._selectorElements);
 
     let observer = new MutationObserver(() => {
@@ -25,6 +43,18 @@ class Search {
     this._input.addEventListener("input", (e) => {
       this._search(e.target.value.trim());
     });
+  }
+
+  setHide(fn) {
+    this._hideFn = fn;
+  }
+
+  setShow(fn) {
+    this._showFn = fn;
+  }
+
+  setComparison(fn) {
+    this._comparison = fn;
   }
 
   _search(value) {
@@ -45,42 +75,41 @@ class Search {
     });
   }
 
-  setHide(fn) {
-    this._hide = fn;
-  }
-
-  setShow(fn) {
-    this._show = fn;
-  }
-
-  setComparison(fn) {
-    this._comparison = fn;
-  }
-
-  _comparison(compare, value) {
-    this._comparison(compare, value);
-  }
-
   _hide(element) {
-    this._hide(element);
+    element.dataset.visibility = "hidden";
+    this._hideFn(element);
   }
 
   _show(element) {
-    this._show(element);
+    element.dataset.visibility = "visible";
+    this._showFn(element);
   }
 }
 
-function hideElementTable(element) {
+function hideElementTable(element = null) {
+  if (!element) return;
+
   element.style.display = "none";
 }
 
-function showElementTable(element) {
+function showElementTable(element = null) {
+  if (!element) return;
+
   element.style.display = "table";
 }
 
-function tableElementsComparison(compare, value) {
+function tableElementsComparison(compare = null, inputValue = null) {
+  if (!compare) throw new Error("Compare not transferred");
+
+  if (!inputValue) throw new Error("InputValue not transferred");
+
+  if (typeof compare !== "string") throw new Error("Compare wrong type");
+
+  if (typeof inputValue !== "string") throw new Error("InputValue wrong type");
+
   if (
-    compare.trim().toLowerCase().substr(0, value.length) === value.toLowerCase()
+    compare.trim().toLowerCase().substr(0, inputValue.length) ===
+    inputValue.toLowerCase()
   ) {
     return true;
   } else {
