@@ -7,7 +7,8 @@ import {
 let user = [
     {
       id: 1,
-      name: "Leanne Graham",
+      name: "Leanne",
+      surname: "Graham",
       email: "Sincere@april.biz",
       licenses: ["Russia_1", "Russia_5", "USA_1"],
     },
@@ -28,7 +29,8 @@ let user = [
   userForMain = {
     1: {
       id: 1,
-      name: "Leanne Graham",
+      name: "Leanne",
+      surname: "Graham",
       email: "Sincere@april.biz",
       licenses: ["Russia_1"],
     },
@@ -40,7 +42,8 @@ describe("Тестирование функций форматирования",
       expect(formattingUsers(user)).toEqual({
         1: {
           id: 1,
-          name: "Leanne Graham",
+          name: "Leanne",
+          surname: "Graham",
           email: "Sincere@april.biz",
           licenses: ["Russia_1", "Russia_5", "USA_1"],
         },
@@ -92,10 +95,11 @@ describe("Тестирование функций форматирования",
           status: "no problems",
           subscribers: {
             1: {
-              email: "Sincere@april.biz",
               id: 1,
+              name: "Leanne",
+              surname: "Graham",
+              email: "Sincere@april.biz",
               licenses: ["Russia_1"],
-              name: "Leanne Graham",
             },
           },
         },

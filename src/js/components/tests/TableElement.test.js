@@ -10,7 +10,8 @@ let main = {
     subscribers: {
       1: {
         id: 1,
-        name: "Leanne Graham",
+        name: "Leanne",
+        surname: "Graham",
         email: "Sincere@april.biz",
         licenses: ["Russia_1", "Russia_5", "USA_1"],
       },
@@ -18,7 +19,8 @@ let main = {
   },
   user = {
     id: 1,
-    name: "Leanne Graham",
+    name: "Leanne",
+    surname: "Graham",
     email: "Sincere@april.biz",
     licenses: ["Russia_1", "Russia_5", "USA_1"],
   };
@@ -69,13 +71,15 @@ describe("Тестирование создания элемента табли�
           subscribers: {
             1: {
               id: 1,
-              name: "Leanne Graham",
+              name: "Leanne",
+              surname: "Graham",
               email: "Sincere@april.biz",
               licenses: ["Russia_1", "Russia_5", "USA_1"],
             },
             2: {
               id: 2,
-              name: "Graham Leanne",
+              name: "Graham",
+              surname: "Leanne",
               email: "SincereGraham@april.biz",
               licenses: ["Russia_1", "Russia_5"],
             },
@@ -135,7 +139,8 @@ describe("Тестирование создания элемента табли�
       let sut = new TableElementUser(),
         testCase = {
           id: 21,
-          name: "Leanne",
+          name: "Graham",
+          surname: "Leanne",
           email: "Sincere@.biz",
           licenses: ["Russia_1"],
         },
@@ -148,7 +153,7 @@ describe("Тестирование создания элемента табли�
       expect(element.dataset.id).toBe(`${testCase.id}`);
       expect(
         element.querySelector(".table-elements__column_name").textContent
-      ).toBe(testCase.name);
+      ).toBe(`${testCase.name} ${testCase.surname}`);
       expect(
         element.querySelector(".table-elements__column_email").textContent
       ).toBe(testCase.email);

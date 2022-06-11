@@ -12,7 +12,8 @@ let main = {
     subscribers: {
       1: {
         id: 1,
-        name: "Leanne Graham",
+        name: "Leanne",
+        surname: "Graham",
         email: "Sincere@april.biz",
         licenses: ["Russia_1", "Russia_5", "USA_1"],
       },
@@ -24,7 +25,8 @@ let main = {
     subscribers: {
       1: {
         id: 1,
-        name: "Leanne Graham",
+        name: "Leanne",
+        surname: "Graham",
         email: "Sincere@april.biz",
         licenses: ["Russia_1", "Russia_5", "USA_1"],
       },
@@ -115,7 +117,8 @@ describe("Тестирование показа элементов в табли
         subscribers: {
           1: {
             id: 1,
-            name: "Leanne Graham",
+            name: "Leanne",
+            surname: "Graham",
             email: "Sincere@april.biz",
             licenses: ["Russia_1", "Russia_5", "USA_1"],
           },
@@ -141,7 +144,8 @@ describe("Тестирование показа элементов в табли
         subscribers: {
           1: {
             id: 1,
-            name: "Leanne Graham",
+            name: "Leanne",
+            surname: "Graham",
             email: "Sincere@april.biz",
             licenses: ["Russia_1", "Russia_5", "USA_1"],
           },
@@ -153,7 +157,8 @@ describe("Тестирование показа элементов в табли
         subscribers: {
           1: {
             id: 1,
-            name: "Leanne Graham",
+            name: "Graham",
+            surname: "Loh",
             email: "Sincere@april.biz",
             licenses: ["Russia_1", "Russia_5", "USA_1"],
           },
@@ -193,7 +198,8 @@ describe("Тестирование показа элементов в табли
       subscribers: {
         1: {
           id: 1,
-          name: "Leanne Graham",
+          name: "Leanne",
+          surname: "Graham",
           email: "Sincere@april.biz",
           licenses: ["Russia_1", "Russia_5", "USA_1"],
         },

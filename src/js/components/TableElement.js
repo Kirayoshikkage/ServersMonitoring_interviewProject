@@ -44,12 +44,12 @@ class TableElementUser extends ATableELement {
   createElement(data) {
     if (!data) throw new Error("Data not transferend");
 
-    let { name, licenses, email, id } = data;
+    let { name, surname, licenses, email, id } = data;
 
     return `
       <tr data-id="${id}" class="table-elements__line">
         <td class="table-elements__column table-elements__column_name">
-          ${name}
+          ${name} ${surname}
         </td>
         <td class="table-elements__column table-elements__column_email">
           ${email}
@@ -66,10 +66,12 @@ class TableElementUser extends ATableELement {
 
     if (!data) throw new Error("Data not transferend");
 
-    let { name, licenses, email, id } = data;
+    let { name, surname, licenses, email, id } = data;
 
     element.dataset.id = id;
-    element.querySelector(".table-elements__column_name").textContent = name;
+    element.querySelector(
+      ".table-elements__column_name"
+    ).textContent = `${name} ${surname}`;
     element.querySelector(".table-elements__column_email").textContent = email;
     element.querySelector(".table-elements__column_licenses").textContent =
       licenses;

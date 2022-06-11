@@ -11,6 +11,7 @@ let user = [
   server = [
     {
       name: "",
+      surname: "",
       status: "",
     },
   ];

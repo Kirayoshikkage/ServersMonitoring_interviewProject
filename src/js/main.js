@@ -12,13 +12,16 @@ import {
   TableElementServer,
   TableElementUser,
 } from "./components/TableElement";
-import { Info, serverInfoChangeDesc } from "./components/Info";
+import { DetailedInfo, serverInfoChangeDesc } from "./components/DetailedInfo";
 import {
   Search,
   hideElementTable,
   showElementTable,
   tableElementsComparison,
 } from "./components/Search";
+import { InfoUser, userInfoChangeDesc } from "./components/InfoUser";
+import { FadeAnimation } from "./components/FadeAnimation";
+import { BlockFocus } from "./components/BlockFocus.js";
 
 async function app() {
   let servers = new Api({
@@ -40,7 +43,8 @@ async function app() {
       selector: ".info .table-elements__body",
       api: new TableElementUser(),
     }),
-    showInfoServer = new Info(),
+    detailedInfoServer = new DetailedInfo(),
+    detailedInfoUser = new DetailedInfo(),
     listServersSearch = new Search({
       input: ".servers .search__input",
       container: ".servers .table-elements__body",
@@ -52,7 +56,16 @@ async function app() {
       container: ".info .table-elements__body",
       selectorElements: ".table-elements__line",
       compare: ".table-elements__column_name",
+    }),
+    infoUser = new InfoUser({
+      selector: ".servers__info-user",
+      closeBtn: ".servers__info-user .info-user__close",
+      selectorActive: "info-user_active",
+      apiAnimation: new FadeAnimation(),
+      apiBlockFocus: new BlockFocus(),
     });
+
+  infoUser.init();
 
   storage.setFormatting("servers", formattingServers);
   storage.setFormatting("users", formattingUsers);
@@ -90,7 +103,7 @@ async function app() {
       listServers.updateElements(storage.getData("main"));
     },
     () => {
-      let key = showInfoServer.getKey();
+      let key = detailedInfoServer.getKey();
 
       if (!key) return;
 
@@ -100,7 +113,7 @@ async function app() {
 
       serverInfoChangeDesc(data);
 
-      showInfoServer.updateData(data);
+      detailedInfoServer.updateData(data);
     },
   ]);
 
@@ -110,12 +123,21 @@ async function app() {
 
   listServers.generationElements(storage.getData("main"));
 
-  showInfoServer.eventSet([
+  detailedInfoServer.eventSet([
     () => {
-      listUsers.generationElements(showInfoServer.getData()["subscribers"]);
+      listUsers.generationElements(detailedInfoServer.getData()["subscribers"]);
     },
     () => {
-      serverInfoChangeDesc(showInfoServer.getData());
+      serverInfoChangeDesc(detailedInfoServer.getData());
+    },
+  ]);
+
+  detailedInfoUser.eventSet([
+    () => {
+      let data = detailedInfoUser.getData();
+
+      userInfoChangeDesc(data);
+      infoUser.toggleState();
     },
   ]);
 
@@ -125,7 +147,7 @@ async function app() {
         id = element.dataset.id,
         data = storage.getData("main")[id];
 
-      showInfoServer.setData(id, data);
+      detailedInfoServer.setData(id, data);
     }
   });
 
@@ -134,6 +156,8 @@ async function app() {
       let element = e.target.closest("[data-id]"),
         id = element.dataset.id,
         data = storage.getData("users")[id];
+
+      detailedInfoUser.setData(id, data);
     }
   });
 
@@ -142,60 +166,70 @@ async function app() {
       let users = [
         {
           id: 1,
-          name: "Leanne Graham",
+          name: "Leanne",
+          surname: "Graham",
           email: "Sincere@april.biz",
           licenses: ["Russia_5", "USA_1"],
         },
         {
           id: 2,
-          name: "Ervin Howell",
+          name: "Ervin",
+          surname: "Howell",
           email: "Shanna@melissa.tv",
-          licenses: ["Russia_4", "USA_4", "Russia_5", "USA_2", "Russia_1"],
+          licenses: ["Russia_4", "USA_4", "Russia_5", "USA_2"],
         },
         {
           id: 3,
-          name: "Clementine Bauch",
+          name: "Clementine",
+          surname: "Bauch",
           email: "Nathan@yesenia.net",
-          licenses: ["Russia_3", "USA_3"],
+          licenses: ["Russia_3", "USA_3", "Russia_1"],
         },
         {
           id: 4,
-          name: "Patricia Lebsack",
+          name: "Patricia",
+          surname: "Lebsack",
           email: "Julianne.OConner@kory.org",
           licenses: ["USA_1"],
         },
         {
           id: 5,
-          name: "Chelsey Dietrich",
+          name: "Chelsey",
+          surname: "Dietrich",
           email: "Lucio_Hettinger@annie.ca",
           licenses: ["USA_2", "USA_3", "USA_5"],
         },
         {
           id: 6,
-          name: "Mrs. Dennis Schulist",
+          name: "Mrs. Dennis",
+          surname: "Schulist",
           email: "Karley_Dach@jasper.info",
           licenses: ["Russia_1", "Russia_2", "Russia_3"],
         },
         {
           id: 7,
-          name: "Kurtis Weissnat",
+          name: "Kurtis",
+          surname: "Weissnat",
           email: "Telly.Hoeger@billy.biz",
-          licenses: ["USA_1", "Russia_4", "Russia_1", "Russia_3"],
+          licenses: ["USA_1", "Russia_4", "Russia_3"],
         },
         {
           id: 8,
-          name: "Nicholas Runolfsdottir V",
+          name: "Nicholas",
+          surname: "Runolfsdottir V",
           email: "Sherwood@rosamond.me",
         },
         {
           id: 9,
-          name: "Glenna Reichert",
+          name: "Glenna",
+          surname: "Reichert",
           email: "Chaim_McDermott@dana.io",
           licenses: ["Russia_3"],
         },
         {
           id: 10,
-          name: "Clementina DuBuque",
+          name: "Clementina",
+          surname: "DuBuque",
           email: "Rey.Padberg@karina.biz",
           licenses: ["Russia_3", "Russia_3"],
         },
@@ -268,6 +302,12 @@ async function app() {
   listUsersSearch.setShow(showElementTable);
 
   listUsersSearch.setComparison(tableElementsComparison);
+
+  document.querySelector(".logo").addEventListener("click", (e) => {
+    e.preventDefault();
+
+    infoUser.toggleState();
+  });
 }
 
 app();

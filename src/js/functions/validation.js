@@ -29,12 +29,14 @@ function validateUsers(data) {
   return data.reduce((acc, item) => {
     if (!Object.keys(item).length) return acc;
 
-    let { id = null, name, email, licenses } = item;
+    let { id = null, name, surname, email, licenses } = item;
 
     if (!Array.isArray(licenses) || !licenses.length) return acc;
 
     acc.push({
       name: typeof name === "string" && name !== "" ? name : "No name",
+      surname:
+        typeof surname === "string" && surname !== "" ? surname : "No surname",
       email: typeof email === "string" && email !== "" ? email : "No email",
       id: id ? id : Date.now(),
       licenses: licenses,

@@ -1,8 +1,4 @@
-class Info {
-  constructor(selector) {
-    this._selector = selector;
-  }
-
+class DetailedInfo {
   _key;
   _data;
   _setDataFunctions = [];
@@ -50,4 +46,4 @@ function serverInfoChangeDesc({ status, name, subscribers }) {
   amount.textContent = `(${Object.keys(subscribers).length} connections)`;
 }
 
-export { Info, serverInfoChangeDesc };
+export { DetailedInfo, serverInfoChangeDesc };
