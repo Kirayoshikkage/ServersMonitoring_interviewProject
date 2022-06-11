@@ -1,12 +1,20 @@
-function validateServers(data) {
+function validateServers(data = null) {
+  if (!data) throw new Error("Data not transfered");
+
+  if (!data.length) throw new Error("Data is empty");
+
   return data.reduce((acc, item) => {
     if (!Object.keys(item).length) return acc;
 
-    let { name, status } = item;
+    let { name = null, status = null } = item;
+
+    if (!name || name === "") return acc;
+
+    if (!status || status === "") return acc;
 
     acc.push({
-      name: typeof name === "string" && name !== "" ? name : "No name",
-      status: typeof status === "string" && status !== "" ? status : "died",
+      name: name,
+      status: status,
     });
 
     return acc;
@@ -14,10 +22,14 @@ function validateServers(data) {
 }
 
 function validateUsers(data) {
+  if (!data) throw new Error("Data not transfered");
+
+  if (!data.length) throw new Error("Data is empty");
+
   return data.reduce((acc, item) => {
     if (!Object.keys(item).length) return acc;
 
-    let { id, name, email, licenses } = item;
+    let { id = null, name, email, licenses } = item;
 
     if (!Array.isArray(licenses) || !licenses.length) return acc;
 

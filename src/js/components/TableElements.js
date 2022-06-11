@@ -7,10 +7,14 @@ class TableElements {
       Object.prototype.toString.call(api) === "[object Object]" ? api : null;
   }
 
-  generationElements(data = null) {
+  init() {
     if (!this._api) throw new Error("Api incorrect");
 
     if (!this._selector) throw new Error("Selector incorrect");
+  }
+
+  generationElements(data = null) {
+    if (!data) throw new Error("Data not transferd");
 
     let list = ``;
 
@@ -23,7 +27,7 @@ class TableElements {
   }
 
   updateElements(data = null) {
-    if (!data) return;
+    if (!data) throw new Error("Data not transferd");
 
     this._selector.querySelectorAll("[data-id]").forEach((item) => {
       let id = item.dataset.id,
@@ -37,29 +41,38 @@ class TableElements {
 
       this._api.updateElement(item, dataItem);
     });
+
+    for (let key in data) {
+      let element = this._selector.querySelector(`[data-id='${key}']`);
+
+      if (!element) {
+        this.addOneElement(data[key]);
+      }
+    }
+  }
+
+  addOneElement(data) {
+    if (!data) throw new Error("Data not transferd");
+
+    let element = this._createElement(data);
+
+    this._selector.insertAdjacentHTML("beforeend", element);
+  }
+
+  event(event = null, cb = null) {
+    if (!event) throw new Error("Event not transferend");
+
+    if (!cb) throw new Error("Cb not transferend");
+
+    if (typeof event !== "string") throw new Error("Event wrong type");
+
+    if (typeof cb !== "function") throw new Error("Cb wrong type");
+
+    this._selector.addEventListener(event, cb);
   }
 
   _createElement(data) {
     return this._api.createElement(data);
-  }
-
-  event(event, cb) {
-    if (typeof event !== "string") throw new Error("Type event is invalid");
-
-    if (typeof cb !== "function" && !Array.isArray(cb))
-      throw new Error("Type cb is invalid");
-
-    this._setEvent(event, cb);
-  }
-
-  _setEvent(event, cb) {
-    if (Array.isArray(cb)) {
-      cb.forEach((func) => this._selector.addEventListener(event, func));
-
-      return;
-    }
-
-    this._selector.addEventListener(event, cb);
   }
 }
 

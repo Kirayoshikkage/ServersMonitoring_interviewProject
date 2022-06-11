@@ -9,7 +9,9 @@ class ATableELement {
 }
 
 class TableElementServer extends ATableELement {
-  createElement(data) {
+  createElement(data = null) {
+    if (!data) throw new Error("Data not transferend");
+
     let { name, status, subscribers } = data;
 
     return `
@@ -24,22 +26,24 @@ class TableElementServer extends ATableELement {
     `;
   }
 
-  updateElement(item = null, data = null) {
-    if (!(item instanceof HTMLElement) || !item || !data) {
-      return;
-    }
+  updateElement(element = null, data = null) {
+    if (!element) throw new Error("Element not transferend");
 
-    let { status = null, subscribers = null } = data;
+    if (!data) throw new Error("Data not transferend");
 
-    item.dataset.status = status;
+    let { status, subscribers } = data;
 
-    item.querySelector(".table-elements__column_amount-users").textContent =
+    element.dataset.status = status;
+
+    element.querySelector(".table-elements__column_amount-users").textContent =
       Object.keys(subscribers).length;
   }
 }
 
 class TableElementUser extends ATableELement {
   createElement(data) {
+    if (!data) throw new Error("Data not transferend");
+
     let { name, licenses, email, id } = data;
 
     return `
@@ -57,13 +61,17 @@ class TableElementUser extends ATableELement {
     `;
   }
 
-  updateElement(item, data) {
+  updateElement(element, data) {
+    if (!element) throw new Error("Element not transferend");
+
+    if (!data) throw new Error("Data not transferend");
+
     let { name, licenses, email, id } = data;
 
-    item.dataset.id = id;
-    item.querySelector(".table-elements__column_name").textContent = name;
-    item.querySelector(".table-elements__column_email").textContent = email;
-    item.querySelector(".table-elements__column_licenses").textContent =
+    element.dataset.id = id;
+    element.querySelector(".table-elements__column_name").textContent = name;
+    element.querySelector(".table-elements__column_email").textContent = email;
+    element.querySelector(".table-elements__column_licenses").textContent =
       licenses;
   }
 }

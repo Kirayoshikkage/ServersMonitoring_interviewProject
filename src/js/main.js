@@ -104,6 +104,10 @@ async function app() {
     },
   ]);
 
+  listServers.init();
+
+  listUsers.init();
+
   listServers.generationElements(storage.getData("main"));
 
   showInfoServer.eventSet([
@@ -146,7 +150,7 @@ async function app() {
           id: 2,
           name: "Ervin Howell",
           email: "Shanna@melissa.tv",
-          licenses: ["Russia_4", "USA_4", "Russia_5", "USA_2"],
+          licenses: ["Russia_4", "USA_4", "Russia_5", "USA_2", "Russia_1"],
         },
         {
           id: 3,
@@ -176,7 +180,7 @@ async function app() {
           id: 7,
           name: "Kurtis Weissnat",
           email: "Telly.Hoeger@billy.biz",
-          licenses: ["USA_1", "Russia_4", "Russia_3"],
+          licenses: ["USA_1", "Russia_4", "Russia_1", "Russia_3"],
         },
         {
           id: 8,
@@ -238,6 +242,10 @@ async function app() {
           name: "USA_5",
           status: "died",
         },
+        {
+          name: "USA_6",
+          status: "died",
+        },
       ];
 
       storage.setData("servers", servers);
@@ -268,13 +276,7 @@ app();
  *
  * Тесты на :
  *
- *  Функции форматирования
- *
- *  Функции валидирования
- *
- *  TableElements
- *
- *  TableElements
+ *  TableElement
  *
  *  Search
  *

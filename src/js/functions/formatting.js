@@ -1,20 +1,22 @@
-function formattingServers(data) {
+function formattingServers(data = null) {
+  if (!data) throw new Error("Data not transfered");
+
   if (!Array.isArray(data)) throw new Error("Invalid type passed data");
 
   if (!data.length) throw new Error("Data is empty");
 
   return data.reduce((acc, item) => {
-    let key = item.name ? item.name : Date.now();
-
     item.subscribers = {};
 
-    acc[key] = item;
+    acc[item.name] = item;
 
     return acc;
   }, {});
 }
 
-function formattingUsers(data) {
+function formattingUsers(data = null) {
+  if (!data) throw new Error("Data not transfered");
+
   if (!Array.isArray(data)) throw new Error("Invalid type passed data");
 
   if (!data.length) throw new Error("Data is empty");
@@ -26,13 +28,31 @@ function formattingUsers(data) {
   }, {});
 }
 
-function formattingMain(servers, users) {
+function formattingMain(servers = null, users = null) {
+  if (!servers) throw new Error("Servers not transfered");
+
+  if (!users) throw new Error("Users not transfered");
+
+  if (Object.prototype.toString.call(servers) !== "[object Object]") {
+    throw new Error("Servers wrong type");
+  }
+
+  if (Object.prototype.toString.call(users) !== "[object Object]") {
+    throw new Error("Users wrong type");
+  }
+
+  if (!Object.keys(servers).length) throw new Error("Servers is empty");
+
+  if (!Object.keys(users).length) throw new Error("Users is empty");
+
   let rezult = JSON.parse(JSON.stringify(servers));
 
   Object.keys(users).forEach((item) => {
     let { licenses = null } = users[item];
 
     licenses?.forEach((server) => {
+      if (!rezult[server]) return;
+
       rezult[server].subscribers[item] = users[item];
     });
   });
@@ -41,13 +61,3 @@ function formattingMain(servers, users) {
 }
 
 export { formattingUsers, formattingServers, formattingMain };
-
-/**
- *
- * Переданы валидные данные
- *
- * Переданы пустые данные
- *
- * Передан не массив
- *
- */
