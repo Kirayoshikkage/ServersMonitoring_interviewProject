@@ -1,4 +1,4 @@
-.info-user {
+.sidebar {
   position: fixed;
   top: 0;
   right: 0;
@@ -7,7 +7,7 @@
   z-index: 100;
 
   &_active {
-    .info-user__content {
+    .sidebar__content {
       transform: translateY(0);
       opacity: 1;
     }
@@ -29,9 +29,12 @@
     width: 100%;
     height: 100%;
     fill: var(--color-white);
+    transition-duration: $transitionDuration;
+    transition-property: fill;
   }
 
   &__content {
+    overflow: auto;
     margin-left: auto;
     max-width: rem(400);
     height: 100%;
@@ -43,66 +46,66 @@
     padding: rem(44) rem(24);
   }
 
-  &__content_edit {
-    .info-user__submit {
-      display: block;
-    }
-
-    .info-user__edit {
-      display: none;
-    }
-  }
-
-  &__submit {
-    display: none;
-  }
-
-  &__edit {
-    display: block;
-  }
-
-  &__label {
-    display: block;
-    border-bottom: rem(1) solid var(--color-middleGray);
+  &__item {
     padding-bottom: 1rem;
+    border-bottom: rem(1) solid var(--color-middleGray);
     margin-bottom: 1rem;
+
+    &_licences {
+      margin-bottom: 0;
+    }
   }
 
-  &__subtitle {
+  &__title {
+    margin: 0;
+    font-size: rem(22);
+    font-weight: 600;
+    line-height: lh(33, 22);
+    color: var(--color-white);
+  }
+
+  &__text {
     margin: 0 0 rem(8);
     font-size: rem(14);
-    font-weight: 400;
     line-height: lh(20, 14);
     color: rgba(203, 203, 203, 1);
   }
 
-  &__text {
-    font-size: rem(16);
+  &__subtitle {
+    margin: 0;
+    font-size: 1rem;
     font-weight: 500;
     line-height: lh(24, 16);
     color: var(--color-white);
   }
 
-  &__licences {
-    border-bottom: rem(1) solid var(--color-middleGray);
-    padding-bottom: 1rem;
-    margin-bottom: rem(24);
-    max-height: rem(273);
+  .sidebar-licences__item:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-licences {
+    max-height: 40vh;
     overflow: auto;
   }
+}
 
-  &__button {
-    width: 100%;
-    padding: rem(14) rem(30);
-    border-radius: rem(30);
-    font-size: rem(14);
-    font-weight: 500;
-    line-height: lh(20, 14);
-    color: var(--color-white);
+@include mouse-device {
+  .sidebar__close {
+    &:hover,
+    &:focus {
+      .sidebar__icon {
+        fill: #f55151;
+      }
+    }
   }
+}
 
-  &__edit {
-    background-color: rgba(38, 38, 38, 1);
-    border: rem(1) solid var(--color-middleGray);
+@include mouse-device {
+  .sidebar__close {
+    &:active {
+      .sidebar__icon {
+        fill: #f55151;
+      }
+    }
   }
 }

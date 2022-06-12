@@ -2,10 +2,6 @@
   display: block;
   width: 100%;
   position: relative;
-  background-color: var(--color-black);
-  border: rem(1) solid #474747;
-  border-radius: rem(30);
-  padding: rem(12) rem(16) rem(12) rem(46);
   overflow: hidden;
 
   &__input {
@@ -13,6 +9,13 @@
     color: var(--color-middleGray);
     font-size: rem(16);
     line-height: lh(24, 16);
+    background-color: var(--color-black);
+    border: rem(1) solid #474747;
+    border-radius: rem(30);
+    padding: rem(12) rem(16) rem(12) rem(46);
+
+    transition-duration: $transitionDuration;
+    transition-property: border-color;
   }
 
   &::before {
@@ -23,5 +26,24 @@
     width: rem(18);
     height: rem(18);
     background: url("../img/search_icon.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+@include mouse-device {
+  .search__input {
+    &:hover,
+    &:focus {
+      border-color: var(--color-white);
+    }
+  }
+}
+
+@include touch-device {
+  .search__input {
+    &:active {
+      border-color: var(--color-white);
+    }
   }
 }

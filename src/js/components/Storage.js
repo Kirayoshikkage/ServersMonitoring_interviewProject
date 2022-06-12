@@ -97,8 +97,6 @@ class Storage {
 
     if (key === "") throw new Error("Key is empty");
 
-    if (!this._data[key]) throw new Error("There is no data with this key");
-
     if (!this._observers[key]) {
       this._observers[key] = [];
     }

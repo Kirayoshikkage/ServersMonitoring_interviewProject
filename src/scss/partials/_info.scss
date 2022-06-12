@@ -24,13 +24,15 @@
   }
 
   &__title,
-  &__amount {
+  &__amount,
+  &__desc-status {
     font-size: rem(22);
     font-weight: 600;
     line-height: lh(33, 22);
     color: var(--color-white);
     display: inline;
     margin: 0;
+    padding-right: 0.5rem;
   }
 
   &__amount {
@@ -43,9 +45,121 @@
 
   .table-elements {
     &__body {
-      height: rem(154);
+      max-height: rem(204);
     }
   }
 
   @include status;
+
+  @include statusNoProblems {
+    .info__desc-status {
+      color: #87ff85;
+    }
+  }
+
+  @include statusMinorProblems {
+    .info__desc-status {
+      color: #fffb95;
+    }
+  }
+
+  @include statusManyProblems {
+    .info__desc-status {
+      color: #f55151;
+    }
+  }
+
+  @include statusDied {
+    .info__desc-status {
+      color: #cbcbcb;
+    }
+  }
+}
+
+@include tablet {
+  .info {
+    .table-elements__headlines_licenses {
+      display: none;
+    }
+
+    .table-elements__column_licenses {
+      display: none;
+    }
+
+    &__desc-status {
+      display: block;
+      padding: 0;
+    }
+  }
+}
+
+@include small-tablet {
+  .info {
+    .sidebar {
+      &__content {
+        max-width: 50%;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .info {
+    gap: 1rem;
+
+    &__title,
+    &__amount {
+      display: block;
+      padding: 0;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    &__desc-status {
+      font-size: 1rem;
+    }
+
+    .table-elements__headlines_email {
+      display: none;
+    }
+
+    .table-elements__column_email {
+      display: none;
+    }
+
+    .sidebar {
+      &__content {
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 1023.98px) {
+  .info {
+    .sidebar {
+      &__content {
+        padding: rem(24);
+      }
+
+      .sidebar-licences {
+        max-height: rem(104);
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) and (max-width: 763.98px) {
+  .info {
+    .sidebar {
+      &__content {
+        padding: 1rem;
+      }
+
+      .sidebar-licences {
+        max-height: rem(64);
+      }
+    }
+  }
 }

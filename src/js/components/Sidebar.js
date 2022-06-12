@@ -1,7 +1,7 @@
 import { toggleScrollPadding } from "../functions/toggleScrollPadding";
 import { getTransitionDuration } from "../functions/getTransitionDuration";
 
-class InfoUser {
+class Sidebar {
   constructor({
     selector = null,
     closeBtn = null,
@@ -9,7 +9,7 @@ class InfoUser {
     apiAnimation = null,
     apiBlockFocus = null,
   } = {}) {
-    this._infoUser =
+    this._sidebar =
       typeof selector === "string" ? document.querySelector(selector) : null;
 
     this._closeBtn =
@@ -34,18 +34,18 @@ class InfoUser {
   _eventOpenFunction = [];
 
   init() {
-    this._transitionDuration = getTransitionDuration(this._infoUser);
+    this._transitionDuration = getTransitionDuration(this._sidebar);
 
-    this._infoUser.addEventListener("pointerdown", (e) => {
+    this._sidebar.addEventListener("click", (e) => {
       if (
-        e.target === this._infoUser.querySelector(".info-user__body") &&
+        e.target === this._sidebar.querySelector(".sidebar__body") &&
         !this._disabled
       ) {
         this.toggleState();
       }
     });
 
-    this._closeBtn.addEventListener("pointerdown", (e) => {
+    this._closeBtn.addEventListener("click", (e) => {
       this.toggleState();
     });
   }
@@ -67,11 +67,9 @@ class InfoUser {
 
     toggleScrollPadding(body, this._isOpen);
 
-    /*     toggleScrollPadding(this._infoUser, this._isOpen); */
-
     body.classList.toggle("overflow-hidden");
 
-    this._infoUser.classList.toggle(this._selectorActive);
+    this._sidebar.classList.toggle(this._selectorActive);
   }
 
   eventOpen(fn) {
@@ -95,17 +93,17 @@ class InfoUser {
   }
 
   _show() {
-    this._apiAnimation?.show(this._infoUser);
+    this._apiAnimation?.show(this._sidebar);
 
-    if (!this._apiAnimation) this._infoUser.style.display = "block";
+    if (!this._apiAnimation) this._sidebar.style.display = "block";
 
     this._isOpen = true;
   }
 
   _hide() {
-    this._apiAnimation?.hide(this._infoUser);
+    this._apiAnimation?.hide(this._sidebar);
 
-    if (!this._apiAnimation) this._infoUser.style.display = "none";
+    if (!this._apiAnimation) this._sidebar.style.display = "none";
 
     this._isOpen = false;
   }
@@ -115,28 +113,4 @@ class InfoUser {
   }
 }
 
-function userInfoChangeDesc({ name, surname, email, licenses }) {
-  let infoUser = document.querySelector(".servers__info-user"),
-    nameInput = infoUser.querySelector('[name="name"'),
-    surnameInput = infoUser.querySelector('[name="surname"'),
-    emailInput = infoUser.querySelector('[name="email"'),
-    licencesList = infoUser.querySelector(".info-user__licences");
-
-  nameInput.value = name;
-  surnameInput.value = surname;
-  emailInput.value = email;
-
-  let licencesItems = ``;
-
-  licenses?.forEach((license) => {
-    licencesItems += `
-      <li class="info-user__item">
-        <p class="info-user__text">${license}</p>
-      </li>
-    `;
-  });
-  licencesList.innerHTML = "";
-  licencesList.insertAdjacentHTML("beforeend", licencesItems);
-}
-
-export { InfoUser, userInfoChangeDesc };
+export { Sidebar };

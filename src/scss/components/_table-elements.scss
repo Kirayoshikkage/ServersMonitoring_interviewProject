@@ -35,14 +35,9 @@
   }
 
   &__line {
-    border-bottom: rem(1) solid var(--color-middleGray);
+    outline: none;
     cursor: pointer;
-
-    &:hover {
-      .table-elements__column {
-        background-color: var(--color-black);
-      }
-    }
+    border-bottom: rem(1) solid var(--color-middleGray);
   }
 
   &__column {
@@ -50,6 +45,10 @@
     color: var(--color-white);
     font-size: 1rem;
     line-height: lh(24, 16);
+    background-clip: padding-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     transition-duration: $transitionDuration;
     transition-property: background;
@@ -73,4 +72,25 @@
   }
 
   @include status;
+}
+
+@include mouse-device {
+  .table-elements__line {
+    &:hover,
+    &:focus {
+      .table-elements__column {
+        background-color: var(--color-black);
+      }
+    }
+  }
+}
+
+@include touch-device {
+  .table-elements__line {
+    &:active {
+      .table-elements__column {
+        background-color: var(--color-black);
+      }
+    }
+  }
 }

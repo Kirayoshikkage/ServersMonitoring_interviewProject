@@ -1,6 +1,5 @@
 .servers {
   background-color: var(--color-brown);
-  height: rem(428);
   border-radius: 1rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -19,24 +18,50 @@
     }
   }
 
-  &__title,
-  &__online {
+  &__title {
     font-size: rem(18);
     font-weight: 500;
     line-height: lh(24, 18);
     color: var(--color-white);
     margin: 0;
-    display: inline-block;
-  }
-
-  &__online {
-    color: var(--color-middleGray);
     margin-bottom: 1rem;
   }
 
   .table-elements {
     &__body {
       height: rem(245);
+    }
+  }
+}
+
+@include tablet {
+  .servers {
+    grid-template-columns: 1fr;
+
+    &__item {
+      &_map {
+        height: rem(326);
+      }
+    }
+  }
+}
+
+@include mobile {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .servers {
+    &__item_map {
+      height: rem(256);
+    }
+
+    .table-elements__headlines_connections {
+      display: none;
+    }
+
+    .table-elements__column_amount-users {
+      display: none;
     }
   }
 }

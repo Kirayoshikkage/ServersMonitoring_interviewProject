@@ -83,3 +83,9 @@ a {
 }
 
 $transitionDuration: 0.4s;
+
+@include tv {
+  :root {
+    font-size: 1.75rem;
+  }
+}

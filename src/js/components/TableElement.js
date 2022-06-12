@@ -15,7 +15,7 @@ class TableElementServer extends ATableELement {
     let { name, status, subscribers } = data;
 
     return `
-      <tr data-id="${name}" data-status="${status}" class="table-elements__line">
+      <tr tabindex="0" data-id="${name}" data-status="${status}" class="table-elements__line">
         <td class="table-elements__column table-elements__column_name status">
           ${name}
         </td>
@@ -47,7 +47,7 @@ class TableElementUser extends ATableELement {
     let { name, surname, licenses, email, id } = data;
 
     return `
-      <tr data-id="${id}" class="table-elements__line">
+      <tr tabindex="0" data-id="${id}" class="table-elements__line">
         <td class="table-elements__column table-elements__column_name">
           ${name} ${surname}
         </td>

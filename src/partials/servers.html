@@ -2,7 +2,6 @@
   <div class="servers__item servers__item_map"></div>
   <div class="servers__item servers__item_list">
     <h2 class="servers__title">Servers</h2>
-    <p class="servers__online">(8 online of 10)</p>
     <label class="search servers__search">
       <input
         type="text"
@@ -15,72 +14,20 @@
       <table class="table-elements__table">
         <thead class="table-elements__head">
           <tr class="table-elements__line">
-            <th class="table-elements__headlines">Name</th>
-            <th class="table-elements__headlines">Connections</th>
+            <th
+              class="table-elements__headlines table-elements__headlines_name"
+            >
+              Name
+            </th>
+            <th
+              class="table-elements__headlines table-elements__headlines_connections"
+            >
+              Connections
+            </th>
           </tr>
         </thead>
-        <tbody class="table-elements__body"></tbody>
+        <tbody tabindex="-1" class="table-elements__body"></tbody>
       </table>
-    </div>
-  </div>
-  <div class="info-user servers__info-user fade-animation">
-    <div class="info-user__body">
-      <div class="info-user__content">
-        <form class="info-user__form" action="#">
-          <label class="info-user__label">
-            <h3 class="info-user__subtitle">Name</h3>
-            <input
-              disabled
-              class="input-reset info-user__text info-user__input"
-              value=""
-              type="text"
-              name="name"
-            />
-          </label>
-          <label class="info-user__label">
-            <h3 class="info-user__subtitle">Surname</h3>
-            <input
-              disabled
-              class="input-reset info-user__text info-user__input"
-              value=""
-              type="text"
-              name="surname"
-            />
-          </label>
-          <label class="info-user__label">
-            <h3 class="info-user__subtitle">Email</h3>
-            <input
-              disabled
-              class="input-reset info-user__text info-user__input"
-              value=""
-              type="email"
-              name="email"
-            />
-          </label>
-          <button
-            class="btn-reset info-user__button info-user__submit"
-            type="submit"
-          >
-            Save changes
-          </button>
-        </form>
-        <h3 class="info-user__subtitle">
-          Licences
-          <span class="info-user__amount-licences"></span>
-        </h3>
-        <ul class="list-reset info-user__licences"></ul>
-        <button
-          type="button"
-          class="btn-reset info-user__button info-user__edit"
-        >
-          Edit profile
-        </button>
-        <button class="btn-reset info-user__close">
-          <svg class="info-user__icon">
-            <use xlink:href="img/sprite.svg#info-user_close"></use>
-          </svg>
-        </button>
-      </div>
     </div>
   </div>
 </section>

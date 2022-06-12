@@ -30,3 +30,27 @@
     }
   }
 }
+
+@mixin statusNoProblems {
+  [data-status="no problems"] {
+    @content;
+  }
+}
+
+@mixin statusMinorProblems {
+  [data-status="minor problems"] {
+    @content;
+  }
+}
+
+@mixin statusManyProblems {
+  [data-status="many problems"] {
+    @content;
+  }
+}
+
+@mixin statusDied {
+  [data-status="died"] {
+    @content;
+  }
+}

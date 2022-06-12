@@ -12,312 +12,471 @@ import {
   TableElementServer,
   TableElementUser,
 } from "./components/TableElement";
-import { DetailedInfo, serverInfoChangeDesc } from "./components/DetailedInfo";
+import { serverInfoChangeDesc } from "./functions/serverInfoChangeDesc";
 import {
   Search,
   hideElementTable,
   showElementTable,
   tableElementsComparison,
 } from "./components/Search";
-import { InfoUser, userInfoChangeDesc } from "./components/InfoUser";
+import { Sidebar } from "./components/Sidebar";
 import { FadeAnimation } from "./components/FadeAnimation";
 import { BlockFocus } from "./components/BlockFocus.js";
+import { userInfoChangeFilds } from "./functions/userInfoChangeFields";
+import { Modal } from "./components/Modal";
 
 async function app() {
-  let servers = new Api({
+  try {
+    // Запрос для получения списка серверов
+
+    let serversRequest = new Api({
       url: settings.urlServers,
       api: new FetchRequest(),
-    }),
-    users = new Api({
+    });
+
+    // Запрос для получения списка пользователей
+
+    let usersRequest = new Api({
       url: settings.urlUsers,
       api: new FetchRequest(),
-    }),
-    serversData = await (await servers.get()).json(),
-    usersData = await (await users.get()).json(),
-    storage = new Storage(),
-    listServers = new TableElements({
+    });
+
+    // Ответ на запрос получения списка серверов
+
+    let serversResponse = await serversRequest.get();
+
+    if (!serversResponse.ok) {
+      throw new Error("Request failed to get list of servers");
+    }
+
+    // Полученный список серверов
+
+    let serversData = await serversResponse.json();
+
+    // Ответ на запрос получения списка пользователей
+
+    let usersResponse = await usersRequest.get();
+
+    if (!usersResponse.ok) {
+      throw new Error("Request failed to get list of users");
+    }
+
+    // Полученный список пользователей
+
+    let usersData = await usersResponse.json();
+
+    // Хранилище
+
+    let storage = new Storage();
+
+    // Таблица серверов
+
+    let tableServers = new TableElements({
       selector: ".servers__table-elements .table-elements__body",
       api: new TableElementServer(),
-    }),
-    listUsers = new TableElements({
-      selector: ".info .table-elements__body",
-      api: new TableElementUser(),
-    }),
-    detailedInfoServer = new DetailedInfo(),
-    detailedInfoUser = new DetailedInfo(),
-    listServersSearch = new Search({
+    });
+
+    // Поиск по таблице серверов
+
+    let searchOnTableServers = new Search({
       input: ".servers .search__input",
       container: ".servers .table-elements__body",
       selectorElements: ".table-elements__line",
       compare: ".table-elements__column_name",
-    }),
-    listUsersSearch = new Search({
+    });
+
+    // Таблица пользователей
+
+    let tableUsers = new TableElements({
+      selector: ".info .table-elements__body",
+      api: new TableElementUser(),
+    });
+
+    // Поиск по таблице пользователей
+
+    let searchOnTableUsers = new Search({
       input: ".info .search__input",
       container: ".info .table-elements__body",
       selectorElements: ".table-elements__line",
       compare: ".table-elements__column_name",
-    }),
-    infoUser = new InfoUser({
-      selector: ".servers__info-user",
-      closeBtn: ".servers__info-user .info-user__close",
-      selectorActive: "info-user_active",
+    });
+
+    // Боковая панель, в ней выводится подробная информация о пользователе
+
+    let sidebarUser = new Sidebar({
+      selector: ".info__sidebar",
+      closeBtn: ".info__sidebar .sidebar__close",
+      selectorActive: "sidebar_active",
       apiAnimation: new FadeAnimation(),
       apiBlockFocus: new BlockFocus(),
     });
 
-  infoUser.init();
+    /*************************************************************************** */
 
-  storage.setFormatting("servers", formattingServers);
-  storage.setFormatting("users", formattingUsers);
-  storage.setValidation("servers", validateServers);
-  storage.setValidation("users", validateUsers);
+    // Добавление функции валидирования для списка серверов и пользователей
 
-  storage.setData("servers", serversData);
-  storage.setData("users", usersData);
+    storage.setValidation("servers", validateServers);
+    storage.setValidation("users", validateUsers);
 
-  storage.setData(
-    "main",
-    formattingMain(storage.getData("servers"), storage.getData("users"))
-  );
+    // Добавление функции форматирования для списка серверов и пользователей
 
-  storage.observer("servers", [
-    () => {
-      let users = storage.getData("users"),
-        servers = storage.getData("servers");
+    storage.setFormatting("servers", formattingServers);
+    storage.setFormatting("users", formattingUsers);
 
-      storage.setData("main", formattingMain(servers, users));
-    },
-  ]);
+    // Добавление списка пользователей и серверов в хранилище
 
-  storage.observer("users", [
-    () => {
-      let users = storage.getData("users"),
-        servers = storage.getData("servers");
+    storage.setData("servers", serversData);
+    storage.setData("users", usersData);
 
-      storage.setData("main", formattingMain(servers, users));
-    },
-  ]);
+    // Объединение списка серверов и пользователей, добавление основных данных
 
-  storage.observer("main", [
-    () => {
-      listServers.updateElements(storage.getData("main"));
-    },
-    () => {
-      let key = detailedInfoServer.getKey();
+    storage.setData(
+      "main",
+      formattingMain(storage.getData("servers"), storage.getData("users"))
+    );
 
-      if (!key) return;
+    // Добавление подписки на обновление списка серверов
 
-      let data = storage.getData("main")[key];
+    storage.observer("servers", [
+      () => {
+        let users = storage.getData("users"),
+          servers = storage.getData("servers");
 
-      listUsers.updateElements(data["subscribers"]);
+        storage.setData("main", formattingMain(servers, users));
+      },
+    ]);
+
+    // Добавление подписки на обновление списка пользователей
+
+    storage.observer("users", [
+      () => {
+        let users = storage.getData("users"),
+          servers = storage.getData("servers");
+
+        storage.setData("main", formattingMain(servers, users));
+      },
+    ]);
+
+    // Добавление подписки на обновление основных данных
+
+    storage.observer("main", [
+      () => {
+        tableServers.updateElements(storage.getData("main"));
+      },
+      () => {
+        if (!storage.getData("selected-server")) return;
+
+        let [id] = storage.getData("selected-server");
+
+        if (!id) return;
+
+        let newData = storage.getData("main")[id];
+
+        storage.setData("selected-server", [id, newData]);
+      },
+      () => {
+        if (!storage.getData("selected-user")) return;
+
+        let [id] = storage.getData("selected-user");
+
+        if (!id) return;
+
+        let newData = storage.getData("users")[id];
+
+        storage.setData("selected-user", [id, newData]);
+      },
+    ]);
+
+    // Инициализация таблицы серверов
+
+    tableServers.init();
+
+    // Добавление обработчика события клика для таблицы серверов
+
+    tableServers.event("click", (e) => {
+      if (e.target.closest("[data-id]")) {
+        let element = e.target.closest("[data-id]"),
+          id = element.dataset.id,
+          data = storage.getData("main")[id];
+
+        if (storage.getData("selected-server")) {
+          if (storage.getData("selected-server")[0] === id) return;
+        }
+
+        tableUsers.generationElements(data["subscribers"]);
+
+        storage.setData("selected-server", [id, data]);
+      }
+    });
+
+    // Добавление обработчика события нажатия клавиши enter для таблицы серверов
+
+    tableServers.event("keydown", (e) => {
+      if (e.code !== "Enter") return;
+
+      if (e.target.closest("[data-id]")) {
+        let element = e.target.closest("[data-id]"),
+          id = element.dataset.id,
+          data = storage.getData("main")[id];
+
+        if (storage.getData("selected-server")) {
+          if (storage.getData("selected-server")[0] === id) return;
+        }
+
+        tableUsers.generationElements(data["subscribers"]);
+
+        storage.setData("selected-server", [id, data]);
+      }
+    });
+
+    // Генерация элементов таблицы серверов
+
+    tableServers.generationElements(storage.getData("main"));
+
+    // Инициализация поиска по таблице серверов
+
+    searchOnTableServers.init();
+
+    // Добавление функции скрытия для поиска по таблице серверов
+
+    searchOnTableServers.setHide(hideElementTable);
+
+    // Добавление функции показа для поиска по таблице серверов
+
+    searchOnTableServers.setShow(showElementTable);
+
+    // Добавление функции сравнения для поиска по таблице серверов
+
+    searchOnTableServers.setComparison(tableElementsComparison);
+
+    // Подписка на событие обновления данных в хранении выбранного сервера
+
+    storage.observer("selected-server", () => {
+      let [id, data] = storage.getData("selected-server");
+
+      tableUsers.updateElements(data["subscribers"]);
 
       serverInfoChangeDesc(data);
+    });
 
-      detailedInfoServer.updateData(data);
-    },
-  ]);
+    // Инициализация таблицы пользователей
 
-  listServers.init();
+    tableUsers.init();
 
-  listUsers.init();
+    // Добавление обработчика события клика для таблицы пользователей
 
-  listServers.generationElements(storage.getData("main"));
+    tableUsers.event("click", (e) => {
+      if (e.target.closest("[data-id]")) {
+        let element = e.target.closest("[data-id]"),
+          id = element.dataset.id,
+          data = storage.getData("users")[id];
 
-  detailedInfoServer.eventSet([
-    () => {
-      listUsers.generationElements(detailedInfoServer.getData()["subscribers"]);
-    },
-    () => {
-      serverInfoChangeDesc(detailedInfoServer.getData());
-    },
-  ]);
+        sidebarUser.toggleState();
+        storage.setData("selected-user", [id, data]);
+      }
+    });
 
-  detailedInfoUser.eventSet([
-    () => {
-      let data = detailedInfoUser.getData();
+    // Добавление обработчика события нажатия клавиши enter для таблицы пользователей
 
-      userInfoChangeDesc(data);
-      infoUser.toggleState();
-    },
-  ]);
+    tableUsers.event("keydown", (e) => {
+      if (e.code !== "Enter") return;
 
-  listServers.event("pointerdown", (e) => {
-    if (e.target.closest("[data-id]")) {
-      let element = e.target.closest("[data-id]"),
-        id = element.dataset.id,
-        data = storage.getData("main")[id];
+      if (e.target.closest("[data-id]")) {
+        let element = e.target.closest("[data-id]"),
+          id = element.dataset.id,
+          data = storage.getData("users")[id];
 
-      detailedInfoServer.setData(id, data);
-    }
-  });
+        sidebarUser.toggleState();
+        storage.setData("selected-user", [id, data]);
+      }
+    });
 
-  listUsers.event("pointerdown", (e) => {
-    if (e.target.closest("[data-id]")) {
-      let element = e.target.closest("[data-id]"),
-        id = element.dataset.id,
-        data = storage.getData("users")[id];
+    // Инициализация поиска по таблице пользователей
 
-      detailedInfoUser.setData(id, data);
-    }
-  });
+    searchOnTableUsers.init();
 
-  storage.updateData(() => {
-    setInterval(() => {
-      let users = [
-        {
-          id: 1,
-          name: "Leanne",
-          surname: "Graham",
-          email: "Sincere@april.biz",
-          licenses: ["Russia_5", "USA_1"],
-        },
-        {
-          id: 2,
-          name: "Ervin",
-          surname: "Howell",
-          email: "Shanna@melissa.tv",
-          licenses: ["Russia_4", "USA_4", "Russia_5", "USA_2"],
-        },
-        {
-          id: 3,
-          name: "Clementine",
-          surname: "Bauch",
-          email: "Nathan@yesenia.net",
-          licenses: ["Russia_3", "USA_3", "Russia_1"],
-        },
-        {
-          id: 4,
-          name: "Patricia",
-          surname: "Lebsack",
-          email: "Julianne.OConner@kory.org",
-          licenses: ["USA_1"],
-        },
-        {
-          id: 5,
-          name: "Chelsey",
-          surname: "Dietrich",
-          email: "Lucio_Hettinger@annie.ca",
-          licenses: ["USA_2", "USA_3", "USA_5"],
-        },
-        {
-          id: 6,
-          name: "Mrs. Dennis",
-          surname: "Schulist",
-          email: "Karley_Dach@jasper.info",
-          licenses: ["Russia_1", "Russia_2", "Russia_3"],
-        },
-        {
-          id: 7,
-          name: "Kurtis",
-          surname: "Weissnat",
-          email: "Telly.Hoeger@billy.biz",
-          licenses: ["USA_1", "Russia_4", "Russia_3"],
-        },
-        {
-          id: 8,
-          name: "Nicholas",
-          surname: "Runolfsdottir V",
-          email: "Sherwood@rosamond.me",
-        },
-        {
-          id: 9,
-          name: "Glenna",
-          surname: "Reichert",
-          email: "Chaim_McDermott@dana.io",
-          licenses: ["Russia_3"],
-        },
-        {
-          id: 10,
-          name: "Clementina",
-          surname: "DuBuque",
-          email: "Rey.Padberg@karina.biz",
-          licenses: ["Russia_3", "Russia_3"],
-        },
-      ];
+    // Добавление функции скрытия для поиска по таблице пользователей
 
-      let servers = [
-        {
-          name: "Russia_1",
-          status: "died",
-        },
-        {
-          name: "Russia_2",
-          status: "minor problems",
-        },
-        {
-          name: "Russia_3",
-          status: "many problems",
-        },
-        {
-          name: "Russia_4",
-          status: "no problems",
-        },
-        {
-          name: "Russia_5",
-          status: "died",
-        },
-        {
-          name: "USA_1",
-          status: "no problems",
-        },
-        {
-          name: "USA_2",
-          status: "minor problems",
-        },
-        {
-          name: "USA_3",
-          status: "many problems",
-        },
-        {
-          name: "USA_4",
-          status: "no problems",
-        },
-        {
-          name: "USA_5",
-          status: "died",
-        },
-        {
-          name: "USA_6",
-          status: "died",
-        },
-      ];
+    searchOnTableUsers.setHide(hideElementTable);
 
-      storage.setData("servers", servers);
-      storage.setData("users", users);
-    }, 5000);
-  });
+    // Добавление функции показа для поиска по таблице пользователей
 
-  listServersSearch.init();
+    searchOnTableUsers.setShow(showElementTable);
 
-  listServersSearch.setHide(hideElementTable);
+    // Добавление функции сравнения для поиска по таблице пользователей
 
-  listServersSearch.setShow(showElementTable);
+    searchOnTableUsers.setComparison(tableElementsComparison);
 
-  listServersSearch.setComparison(tableElementsComparison);
+    // Подписка на событие обновления данных в хранении выбранного пользователя
 
-  listUsersSearch.init();
+    storage.observer("selected-user", () => {
+      let [id, data] = storage.getData("selected-user");
 
-  listUsersSearch.setHide(hideElementTable);
+      userInfoChangeFilds(data);
+    });
 
-  listUsersSearch.setShow(showElementTable);
+    // Инициализация боковой панели
 
-  listUsersSearch.setComparison(tableElementsComparison);
+    sidebarUser.init();
 
-  document.querySelector(".logo").addEventListener("click", (e) => {
-    e.preventDefault();
+    // "Обновление данных"
 
-    infoUser.toggleState();
-  });
+    storage.updateData(() => {
+      setTimeout(() => {
+        let users = [
+          {
+            id: 1,
+            name: "Lean",
+            surname: "Graham",
+            email: "Sincere@april.biz",
+            licenses: ["Russia_5", "USA_1", "Russia_1"],
+          },
+          {
+            id: 2,
+            name: "Ervin",
+            surname: "Howell",
+            email: "Shanna@melissa.tv",
+            licenses: ["Russia_4", "USA_4", "Russia_5", "USA_2"],
+          },
+          {
+            id: 3,
+            name: "Clem",
+            surname: "Bauch",
+            email: "Nathan@yesenia.net",
+            licenses: ["Russia_3", "USA_3", "Russia_1"],
+          },
+          {
+            id: 4,
+            name: "Patricia",
+            surname: "Lebsack",
+            email: "Julianne.OConner@kory.org",
+            licenses: ["USA_1"],
+          },
+          {
+            id: 5,
+            name: "Chelsey",
+            surname: "Dietrich",
+            email: "Lucio_Hettinger@annie.ca",
+            licenses: ["USA_2", "USA_3", "USA_5"],
+          },
+          {
+            id: 6,
+            name: "Mrs. Dennis",
+            surname: "Schulist",
+            email: "Karley_Dach@jasper.info",
+            licenses: ["Russia_1", "Russia_2", "Russia_3"],
+          },
+          {
+            id: 7,
+            name: "Kurtis",
+            surname: "Weissnat",
+            email: "Telly.Hoeger@billy.biz",
+            licenses: ["USA_1", "Russia_4", "Russia_3"],
+          },
+          {
+            id: 8,
+            name: "Nicholas",
+            surname: "Runolfsdottir V",
+            email: "Sherwood@rosamond.me",
+          },
+          {
+            id: 9,
+            name: "Glenna",
+            surname: "Reichert",
+            email: "Chaim_McDermott@dana.io",
+            licenses: ["Russia_3", "Russia_1"],
+          },
+          {
+            id: 10,
+            name: "Clementina",
+            surname: "DuBuque",
+            email: "Rey.Padberg@karina.biz",
+            licenses: ["Russia_3", "Russia_3"],
+          },
+        ];
+
+        let servers = [
+          {
+            name: "Russia_1",
+            status: "died",
+          },
+          {
+            name: "Russia_2",
+            status: "minor problems",
+          },
+          {
+            name: "Russia_3",
+            status: "no problems",
+          },
+          {
+            name: "Russia_4",
+            status: "no problems",
+          },
+          {
+            name: "Russia_5",
+            status: "died",
+          },
+          {
+            name: "USA_1",
+            status: "no problems",
+          },
+          {
+            name: "USA_2",
+            status: "minor problems",
+          },
+          {
+            name: "USA_3",
+            status: "many problems",
+          },
+          {
+            name: "USA_4",
+            status: "no problems",
+          },
+          {
+            name: "USA_5",
+            status: "died",
+          },
+          {
+            name: "USA_6",
+            status: "died",
+          },
+        ];
+
+        storage.setData("servers", servers);
+        storage.setData("users", users);
+      }, 5000);
+    });
+  } catch (error) {
+    console.log(error);
+    const errorModal = new Modal({
+      selector: ".modal-error",
+      selectorActive: "modal_active",
+      closeBtn: ".modal-error .modal__close",
+      apiAnimation: new FadeAnimation({
+        display: "flex",
+        duration: 400,
+      }),
+      apiBlockFocus: new BlockFocus({
+        exceptionContainer: ".modal-error",
+      }),
+    });
+
+    errorModal.init();
+
+    errorModal.toggleState();
+  }
 }
 
 app();
 
 /**
  *
- * Тесты на :
+ * Тесты на API
  *
- *  TableElement
+ * Тесты на Sidebar
  *
- *  Search
+ * Количество онлайн / всего
+ *
+ * Карта
  *
  */
