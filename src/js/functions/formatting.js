@@ -7,6 +7,7 @@ function formattingServers(data = null) {
 
   return data.reduce((acc, item) => {
     item.subscribers = {};
+    item.geo = item.geo.split(",");
 
     acc[item.name] = item;
 

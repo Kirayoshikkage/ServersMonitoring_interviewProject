@@ -6,15 +6,18 @@ function validateServers(data = null) {
   return data.reduce((acc, item) => {
     if (!Object.keys(item).length) return acc;
 
-    let { name = null, status = null } = item;
+    let { name = null, status = null, geo = null } = item;
 
     if (!name || name === "") return acc;
 
     if (!status || status === "") return acc;
 
+    if (!geo) return acc;
+
     acc.push({
-      name: name,
-      status: status,
+      name,
+      status,
+      geo,
     });
 
     return acc;

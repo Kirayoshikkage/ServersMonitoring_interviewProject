@@ -24,6 +24,8 @@ import { FadeAnimation } from "./components/FadeAnimation";
 import { BlockFocus } from "./components/BlockFocus.js";
 import { userInfoChangeFilds } from "./functions/userInfoChangeFields";
 import { Modal } from "./components/Modal";
+import { getStatusColor } from "./functions/getStatusColor";
+import { getDetailedDescStatus } from "./functions/getDetailedDescStatus";
 
 async function app() {
   try {
@@ -396,46 +398,57 @@ async function app() {
           {
             name: "Russia_1",
             status: "died",
+            geo: "57.99400324760205,60.73410604300735",
           },
           {
             name: "Russia_2",
             status: "minor problems",
+            geo: "62.950599862435396,105.60227010550732",
           },
           {
             name: "Russia_3",
             status: "no problems",
+            geo: "56.83580484034394,60.26993900221754",
           },
           {
             name: "Russia_4",
             status: "no problems",
+            geo: "54.85845681734863,31.88126712721753",
           },
           {
             name: "Russia_5",
             status: "died",
+            geo: "64.35993410519052,40.8501291937182",
           },
           {
             name: "USA_1",
             status: "no problems",
+            geo: "41.16475244368966,-87.47662312206252",
           },
           {
             name: "USA_2",
             status: "minor problems",
+            geo: "38.97045377788559,-94.85943562206252",
           },
           {
             name: "USA_3",
             status: "many problems",
+            geo: "45.77029457326454,-108.57037312206252",
           },
           {
             name: "USA_4",
             status: "no problems",
+            geo: "37.79441756319579,-122.1934199970625",
           },
           {
             name: "USA_5",
             status: "died",
+            geo: "34.18861568042417,-118.0186153095625",
           },
           {
             name: "USA_6",
             status: "died",
+            geo: "35.79441756319579,-122.1934199970625",
           },
         ];
 
@@ -443,6 +456,131 @@ async function app() {
         storage.setData("users", users);
       }, 5000);
     });
+
+    // Карта
+
+    ymaps.ready(init);
+
+    function init() {
+      // Инициализация карты
+
+      let serversMap = new ymaps.Map("map", {
+        center: [55.76, 37.64],
+        zoom: 2,
+        controls: [],
+      });
+
+      // Менеджер объектов
+
+      let objectManager = new ymaps.ObjectManager();
+
+      // Коллекция геообъектов
+
+      let collectionGeoobject = {
+        type: "FeatureCollection",
+        features: [],
+      };
+
+      // Основные данные
+
+      let mainData = storage.getData("main");
+
+      //  Функция создания нового геобъекта
+
+      function createNewGeoobject(data, key) {
+        let { name, subscribers, geo, status } = data;
+
+        return {
+          type: "Feature",
+          id: key,
+          geometry: {
+            type: "Point",
+            coordinates: geo,
+          },
+          options: {
+            preset: "islands#circleDotIcon",
+            fill: true,
+            fillColor: getStatusColor(status),
+            iconColor: getStatusColor(status),
+          },
+          properties: {
+            hintContent: `
+            ${name}
+            `,
+          },
+        };
+      }
+
+      // Создание геообъектов
+
+      for (let key in mainData) {
+        collectionGeoobject.features.push(
+          createNewGeoobject(mainData[key], key)
+        );
+      }
+
+      // Добавление коллекции геобъектов в менеджер объектов
+
+      objectManager.add(collectionGeoobject);
+
+      // Добавление менеджера объектов на карту
+
+      serversMap.geoObjects.add(objectManager);
+
+      // Функция изменения состояния отметки на карте
+
+      function changeStateGeoobject(data, id) {
+        let { name, status } = data;
+
+        objectManager.objects.setObjectOptions(id, {
+          iconColor: getStatusColor(status),
+        });
+
+        objectManager.objects.setObjectProperties(id, {
+          hintContent: `${name}`,
+        });
+      }
+
+      // При изменении основных данных, изменяются геообъекты
+
+      storage.observer("main", [
+        () => {
+          let data = storage.getData("main");
+
+          objectManager.objects.getAll().forEach((geoobject) => {
+            let newData = data[geoobject.id];
+
+            if (!newData) {
+              objectManager.remove(geoobject);
+
+              return;
+            }
+
+            changeStateGeoobject(newData, geoobject.id);
+          });
+
+          for (let key in data) {
+            if (!objectManager.getObjectState(key)) return;
+
+            createNewGeoobject(data[key], key);
+          }
+        },
+      ]);
+
+      // При клике показывается подробная информация о сервере
+
+      objectManager.events.add("click", function (e) {
+        let id = e.get("objectId"),
+          data = storage.getData("main")[id];
+
+        if (storage.getData("selected-server")) {
+          if (storage.getData("selected-server")[0] === id) return;
+        }
+
+        tableUsers.generationElements(data["subscribers"]);
+        storage.setData("selected-server", [id, data]);
+      });
+    }
   } catch (error) {
     const errorModal = new Modal({
       selector: ".modal-error",

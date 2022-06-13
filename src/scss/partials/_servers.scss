@@ -7,15 +7,8 @@
   padding: 1rem;
   margin-bottom: 1rem;
 
-  &__item {
-    &_map {
-      background-color: var(--color-black);
-      border-radius: 1rem;
-    }
-
-    &_list {
-      overflow: hidden;
-    }
+  &__item_list {
+    overflow: hidden;
   }
 
   &__title {
@@ -32,16 +25,21 @@
       height: rem(245);
     }
   }
+
+  #map {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
 }
 
 @include tablet {
   .servers {
     grid-template-columns: 1fr;
 
-    &__item {
-      &_map {
-        height: rem(326);
-      }
+    #map {
+      height: rem(326);
     }
   }
 }
@@ -52,12 +50,12 @@
   }
 
   .servers {
-    &__item_map {
-      height: rem(256);
-    }
-
     .table-elements__headlines_connections {
       display: none;
+    }
+
+    #map {
+      height: rem(256);
     }
 
     .table-elements__column_amount-users {
