@@ -34,12 +34,16 @@ async function app() {
       api: new FetchRequest(),
     });
 
+    serversRequest.init();
+
     // Запрос для получения списка пользователей
 
     let usersRequest = new Api({
       url: settings.urlUsers,
       api: new FetchRequest(),
     });
+
+    usersRequest.init();
 
     // Ответ на запрос получения списка серверов
 
@@ -49,10 +53,6 @@ async function app() {
       throw new Error("Request failed to get list of servers");
     }
 
-    // Полученный список серверов
-
-    let serversData = await serversResponse.json();
-
     // Ответ на запрос получения списка пользователей
 
     let usersResponse = await usersRequest.get();
@@ -60,6 +60,10 @@ async function app() {
     if (!usersResponse.ok) {
       throw new Error("Request failed to get list of users");
     }
+
+    // Полученный список серверов
+
+    let serversData = await serversResponse.json();
 
     // Полученный список пользователей
 
@@ -191,9 +195,9 @@ async function app() {
 
     tableServers.init();
 
-    // Добавление обработчика события клика для таблицы серверов
+    // Функция обработки события для таблицы серверов
 
-    tableServers.event("click", (e) => {
+    function eventHandlingTableServers(e) {
       if (e.target.closest("[data-id]")) {
         let element = e.target.closest("[data-id]"),
           id = element.dataset.id,
@@ -207,6 +211,12 @@ async function app() {
 
         storage.setData("selected-server", [id, data]);
       }
+    }
+
+    // Добавление обработчика события клика для таблицы серверов
+
+    tableServers.event("click", (e) => {
+      eventHandlingTableServers(e);
     });
 
     // Добавление обработчика события нажатия клавиши enter для таблицы серверов
@@ -214,19 +224,7 @@ async function app() {
     tableServers.event("keydown", (e) => {
       if (e.code !== "Enter") return;
 
-      if (e.target.closest("[data-id]")) {
-        let element = e.target.closest("[data-id]"),
-          id = element.dataset.id,
-          data = storage.getData("main")[id];
-
-        if (storage.getData("selected-server")) {
-          if (storage.getData("selected-server")[0] === id) return;
-        }
-
-        tableUsers.generationElements(data["subscribers"]);
-
-        storage.setData("selected-server", [id, data]);
-      }
+      eventHandlingTableServers(e);
     });
 
     // Генерация элементов таблицы серверов
@@ -249,7 +247,7 @@ async function app() {
 
     searchOnTableServers.setComparison(tableElementsComparison);
 
-    // Подписка на событие обновления данных в хранении выбранного сервера
+    // Подписка на событие обновления данных выбранного сервера
 
     storage.observer("selected-server", () => {
       let [id, data] = storage.getData("selected-server");
@@ -263,9 +261,9 @@ async function app() {
 
     tableUsers.init();
 
-    // Добавление обработчика события клика для таблицы пользователей
+    // Функция обработки события для таблицы пользователей
 
-    tableUsers.event("click", (e) => {
+    function eventHandlingTableUsers(e) {
       if (e.target.closest("[data-id]")) {
         let element = e.target.closest("[data-id]"),
           id = element.dataset.id,
@@ -274,6 +272,12 @@ async function app() {
         sidebarUser.toggleState();
         storage.setData("selected-user", [id, data]);
       }
+    }
+
+    // Добавление обработчика события клика для таблицы пользователей
+
+    tableUsers.event("click", (e) => {
+      eventHandlingTableUsers(e);
     });
 
     // Добавление обработчика события нажатия клавиши enter для таблицы пользователей
@@ -281,14 +285,7 @@ async function app() {
     tableUsers.event("keydown", (e) => {
       if (e.code !== "Enter") return;
 
-      if (e.target.closest("[data-id]")) {
-        let element = e.target.closest("[data-id]"),
-          id = element.dataset.id,
-          data = storage.getData("users")[id];
-
-        sidebarUser.toggleState();
-        storage.setData("selected-user", [id, data]);
-      }
+      eventHandlingTableUsers(e);
     });
 
     // Инициализация поиска по таблице пользователей
@@ -307,7 +304,7 @@ async function app() {
 
     searchOnTableUsers.setComparison(tableElementsComparison);
 
-    // Подписка на событие обновления данных в хранении выбранного пользователя
+    // Подписка на событие обновления данных выбранного пользователя
 
     storage.observer("selected-user", () => {
       let [id, data] = storage.getData("selected-user");
@@ -447,7 +444,6 @@ async function app() {
       }, 5000);
     });
   } catch (error) {
-    console.log(error);
     const errorModal = new Modal({
       selector: ".modal-error",
       selectorActive: "modal_active",
@@ -468,15 +464,3 @@ async function app() {
 }
 
 app();
-
-/**
- *
- * Тесты на API
- *
- * Тесты на Sidebar
- *
- * Количество онлайн / всего
- *
- * Карта
- *
- */
