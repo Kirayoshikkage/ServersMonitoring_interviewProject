@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "name": "Leanne",
+    "surname": "Graham",
+    "email": "Sincere@april.biz",
+    "licenses": ["Russia_1", "Russia_5", "USA_1"]
+  },
+  {
+    "id": 2,
+    "name": "Ervin",
+    "surname": "Howell",
+    "email": "Shanna@melissa.tv",
+    "licenses": ["Russia_4", "USA_4", "Russia_5", "USA_2"]
+  },
+  {
+    "id": 3,
+    "name": "Clementine",
+    "surname": "Bauch",
+    "email": "Nathan@yesenia.net",
+    "licenses": ["Russia_3", "USA_3"]
+  },
+  {
+    "id": 4,
+    "name": "Patricia",
+    "surname": "Lebsack",
+    "email": "Julianne.OConner@kory.org",
+    "licenses": ["USA_1"]
+  },
+  {
+    "id": 5,
+    "name": "Chelsey",
+    "surname": "Dietrich",
+    "email": "Lucio_Hettinger@annie.ca",
+    "licenses": ["USA_2", "USA_3", "USA_5"]
+  },
+  {
+    "id": 6,
+    "name": "Mrs. Dennis",
+    "surname": "Schulist",
+    "email": "Karley_Dach@jasper.info",
+    "licenses": ["Russia_1", "Russia_2", "Russia_3"]
+  },
+  {
+    "id": 7,
+    "name": "Kurtis",
+    "surname": "Weissnat",
+    "email": "Telly.Hoeger@billy.biz",
+    "licenses": ["USA_1", "Russia_4", "Russia_3"]
+  },
+  {
+    "id": 8,
+    "name": "Nicholas",
+    "surname": "Runolfsdottir V",
+    "email": "Sherwood@rosamond.me"
+  },
+  {
+    "id": 9,
+    "name": "Glenna",
+    "surname": "Reichert",
+    "email": "Chaim_McDermott@dana.io",
+    "licenses": ["Russia_3"]
+  },
+  {
+    "id": 10,
+    "name": "Clementina",
+    "surname": "DuBuque",
+    "email": "Rey.Padberg@karina.biz",
+    "licenses": ["Russia_3", "Russia_3"]
+  }
+]
