@@ -1,4 +1,4 @@
-# ServersMonitoring
+# ServersMonitoring http://servers.matvie1x.beget.tech/
 
 ## Установка проекта
 ```
